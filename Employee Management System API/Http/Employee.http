@@ -1,0 +1,78 @@
+@baseUrl = {{http}}
+@employeeId = 2025-1166
+
+### Get All Employees
+GET {{baseUrl}}/api/employee?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Employee By ID
+GET {{baseUrl}}/api/employee/{{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Attendance
+GET {{baseUrl}}/api/employee/attendance?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Leave Request
+GET {{baseUrl}}/api/employee/leave?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Payroll
+GET {{baseUrl}}/api/employee/payroll?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Performance Review
+GET {{baseUrl}}/api/employee/appraisal?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Contact Info
+GET {{baseUrl}}/api/employee/contact?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Project Assignment
+GET {{baseUrl}}/api/employee/task?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Create New Employee: in order to create an Employee you must create and account
+POST {{baseUrl}}/api/employee
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "employeePub_ID": "2025-1155",
+  "firstName": "John",
+  "middleName": "D",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "dateOfBirth": "1995-01-01",
+  "hireDate": "2023-05-01",
+  "address": "123 Sample Street",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "appUserId": "e86b2ad3-4e7c-497b-a760-1b6dcfe5938f"
+}
+
+### Update Employee: in order to update an Employee you must create an account
+PUT {{baseUrl}}/api/employee/{{employeeId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "employeePub_ID": "{{employeeId}}",
+  "firstName": "John",
+  "middleName": "Updated",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "dateOfBirth": "1995-01-01",
+  "hireDate": "2023-05-01",
+  "address": "456 New Address",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "appUserId": "e86b2ad3-4e7c-497b-a760-1b6dcfe5938f"
+}
+
+### Delete Employee
+DELETE {{baseUrl}}/api/employee/{{employeeId}}
+Authorization: Bearer {{token}}

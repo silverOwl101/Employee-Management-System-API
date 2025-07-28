@@ -1,0 +1,36 @@
+@baseUrl = {{http}}
+@departmentId = 2026-1122
+
+### Get all departments (with optional query parameters)
+GET {{baseUrl}}/api/department?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get department by ID
+GET {{baseUrl}}/api/department/{{departmentId}}
+Authorization: Bearer {{token}}
+
+### Create a new department
+POST {{baseUrl}}/api/department
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "departmentPub_ID": "2026-1122",
+  "departmentName": "Hr Department",
+  "description": "test"
+}
+
+### Update an existing department
+PUT {{baseUrl}}/api/department/{{departmentId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "departmentPub_ID": "{{departmentId}}",
+  "departmentName": "Hr Department",
+  "description": "test"
+}
+
+### Delete a department
+DELETE {{baseUrl}}/api/department/{{departmentId}}
+Authorization: Bearer {{token}}

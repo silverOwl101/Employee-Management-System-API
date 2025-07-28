@@ -1,0 +1,47 @@
+
+@baseUrl = {{http}}
+@leaveRequestId = 2025-2581
+
+
+### Get All Leave request
+GET {{baseUrl}}/api/timeoff?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Leave request by ID
+GET {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Authorization: Bearer {{token}}
+
+### Create Leave request: To create a leave request you must have an employee id
+POST {{baseUrl}}/api/timeoff
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "leavePub_ID": "string",
+  "startDate": "2025-07-25",
+  "endDate": "2025-07-25",
+  "leaveType": "Sick",
+  "status": "Pending",
+  "reason": "string",
+  "employeePub_ID": "string"
+}
+
+
+### Update Leave request
+PUT {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "leavePub_ID": "{{leaveRequestId}}",
+  "startDate": "2025-07-25",
+  "endDate": "2025-07-25",
+  "leaveType": "Sick",
+  "status": "Pending",
+  "reason": "string",
+  "employeePub_ID": "string"
+}
+
+### Delete Leave request
+DELETE {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Authorization: Bearer {{token}}

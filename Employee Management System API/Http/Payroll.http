@@ -1,0 +1,46 @@
+@baseUrl = {{http}}
+@payrollId = 2025-9820
+
+
+
+### Get All Payroll
+GET {{baseUrl}}/api/payroll?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Payroll by ID
+GET {{baseUrl}}/api/payroll/{{payrollId}}
+Authorization: Bearer {{token}}
+
+### Create Payroll: Need Employee ID
+POST {{baseUrl}}/api/payroll
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "payrollPub_ID": "string",
+  "payDate": "2025-07-25",
+  "basicSalary": 0,
+  "allowances": 0,
+  "deductions": 0,
+  "netSalary": 0,
+  "employeePub_ID": "string"
+}
+
+### Update Payroll
+PUT {{baseUrl}}/api/payroll/{{payrollId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "payrollPub_ID": "string",
+  "payDate": "2025-07-25",
+  "basicSalary": 0,
+  "allowances": 0,
+  "deductions": 0,
+  "netSalary": 0,
+  "employeePub_ID": "string"
+}
+
+### Delete Payroll
+DELETE {{baseUrl}}/api/payroll/{{payrollId}}
+Authorization: Bearer {{token}}

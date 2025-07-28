@@ -1,0 +1,246 @@
+using Employee_Management_System_API.Authorization;
+using Employee_Management_System_API.Data;
+using Employee_Management_System_API.Domain.Entities;
+using Employee_Management_System_API.DTOs.Global_Error;
+using Employee_Management_System_API.Interfaces.Repositories;
+using Employee_Management_System_API.Interfaces.Services;
+using Employee_Management_System_API.Middleware;
+using Employee_Management_System_API.Repositories;
+using Employee_Management_System_API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Net;
+using System.Reflection;
+using System.Text.Json.Serialization;
+
+namespace Employee_Management_System_API
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
+            //For 400 global model validation
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errorsMessage = context.ModelState
+                    .Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToArray();
+
+                    var response = new ErrorDetails
+                    {
+                        Status = 400,
+                        Error = "BadRequest",
+                        Message = string.Join(" | ", errorsMessage),
+                        Path = context.HttpContext.Request.Path,
+                        TraceId = context.HttpContext.TraceIdentifier
+                    };
+
+                    return new BadRequestObjectResult(response);
+                };
+            });
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee Management System API", Version = "v1" });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter JWT token here",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+
+                option.CustomSchemaIds(type => type.Name);
+
+                // This is for adding xml comments in every end points
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                option.IncludeXmlComments(xmlPath);
+            });
+
+            builder.Services.AddDbContext<ApplicationDBContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+
+            builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 12;
+            }).AddEntityFrameworkStores<ApplicationDBContext>()
+              .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme =
+                options.DefaultScheme =
+                options.DefaultSignInScheme =
+                options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey
+                                (System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
+                };
+
+                // For 401 and 403 JWT Global error
+                options.Events = new JwtBearerEvents
+                {
+                    OnChallenge = context =>
+                    {
+                        context.HandleResponse();
+                        context.Response.StatusCode = 401;
+                        context.Response.ContentType = "application/json";
+                        return context.Response.WriteAsJsonAsync(new ErrorDetails
+                        {
+                            Status = 401,
+                            Error = "Unauthorized",
+                            Message = "Authentication is required.",
+                            Path = context.HttpContext.Request.Path,
+                            TraceId = context.HttpContext.TraceIdentifier
+                        });
+                    },
+
+                    OnForbidden = context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        context.Response.ContentType = "application/json";
+                        return context.Response.WriteAsJsonAsync(new ErrorDetails
+                        {
+                            Status = 403,
+                            Error = "Forbidden",
+                            Message = "You are not allowed to access this resource.",
+                            Path = context.HttpContext.Request.Path,
+                            TraceId = context.HttpContext.TraceIdentifier
+                        });
+                    }
+                };
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                AuthorizationPolicies.SystemPolicies(options!);
+            });
+
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IPhoneNumberRepository, PhoneNumberRepository>();
+            builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
+            builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+            builder.Services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
+            builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+            builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
+            builder.Services.AddScoped<IPayrollService, PayrollService>();
+            builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+            builder.Services.AddScoped<IProjectService, ProjectService>();
+            builder.Services.AddScoped<IProjectAssignmentRepository, ProjectAssignmentRepository>();
+            builder.Services.AddScoped<IProjectAssignmentService, ProjectAssignmentService>();
+            builder.Services.AddScoped<IPerformanceReviewRepository, PerformanceReviewRepository>();
+            builder.Services.AddScoped<IPerformanceReviewService, PerformanceReviewService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IUserAuthenticationService, AccountService>();
+            var app = builder.Build();
+
+            #region Seedings
+            //Seeding the sa (Super Admin)
+            //await DbSeeder.SeedSuperAdmin(app.Services);
+
+            //using var scope = app.Services.CreateScope();
+            //var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+            //await DbSeeder.SeedProjectAssignmentInfo(context);
+            //await DbSeeder.SeedPerformanceReviewInfo(context);
+            //await DbSeeder.SeedLeaveRequestInfo(context);
+            //await DbSeeder.SeedPhoneNumberInfo(context);
+            //await DbSeeder.SeedFakeAttendanceInfo(context);
+            #endregion
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            //For 404 global model validation
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    response.ContentType = "application/json";
+                    await response.WriteAsJsonAsync(new ErrorDetails
+                    {
+                        Status = 404,
+                        Error = "NotFound",
+                        Message = "The requested resource was not found.",
+                        Path = context.HttpContext.Request.Path,
+                        TraceId = context.HttpContext.TraceIdentifier
+                    });
+                }
+            });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.MapControllers();
+
+            await app.RunAsync();
+        }
+    }
+}

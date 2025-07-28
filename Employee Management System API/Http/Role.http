@@ -1,0 +1,41 @@
+
+@baseUrl = {{http}}
+@roleId = 2026-5565
+
+### Get All Roles
+GET {{baseUrl}}/api/role?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Role by ID
+GET {{baseUrl}}/api/role/{{roleId}}
+Authorization: Bearer {{token}}
+
+### Create Role
+POST {{baseUrl}}/api/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rolePub_ID": "2026-5565",
+  "roleName": "Qa",
+  "description": "check check",
+  "salary": 100000
+}
+
+
+### Update Role
+PUT {{baseUrl}}/api/role/{{roleId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rolePub_ID": "{{roleId}}",
+  "roleName": "Programmers",
+  "description": "test test",
+  "salary": 12000
+}
+
+
+### Delete Role
+DELETE {{baseUrl}}/api/role/{{roleId}}
+Authorization: Bearer {{token}}

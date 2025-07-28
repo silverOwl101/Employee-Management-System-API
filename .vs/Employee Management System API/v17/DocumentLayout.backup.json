@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|c:\\exxxcube files\\projects\\c#\\employee management system\\employee management system api\\employee management system api\\http\\role.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|solutionrelative:employee management system api\\http\\role.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|c:\\exxxcube files\\projects\\c#\\employee management system\\employee management system api\\employee management system api\\http\\projectassignment.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|solutionrelative:employee management system api\\http\\projectassignment.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|c:\\exxxcube files\\projects\\c#\\employee management system\\employee management system api\\employee management system api\\http\\account.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|solutionrelative:employee management system api\\http\\account.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|c:\\exxxcube files\\projects\\c#\\employee management system\\employee management system api\\employee management system api\\http\\attendance.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|solutionrelative:employee management system api\\http\\attendance.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|c:\\exxxcube files\\projects\\c#\\employee management system\\employee management system api\\employee management system api\\http\\httpenv.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{BD566D43-8EAF-494D-B246-58A4871832E8}|Employee Management System API\\Employee Management System API.csproj|solutionrelative:employee management system api\\http\\httpenv.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Role.http",
+              "DocumentMoniker": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Role.http",
+              "RelativeDocumentMoniker": "Employee Management System API\\Http\\Role.http",
+              "ToolTip": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Role.http",
+              "RelativeToolTip": "Employee Management System API\\Http\\Role.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-07-26T13:21:37.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProjectAssignment.http",
+              "DocumentMoniker": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\ProjectAssignment.http",
+              "RelativeDocumentMoniker": "Employee Management System API\\Http\\ProjectAssignment.http",
+              "ToolTip": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\ProjectAssignment.http",
+              "RelativeToolTip": "Employee Management System API\\Http\\ProjectAssignment.http",
+              "ViewState": "AgIAABYAAAAAAAAAAAAswCoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-07-26T13:05:33.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Attendance.http",
+              "DocumentMoniker": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Attendance.http",
+              "RelativeDocumentMoniker": "Employee Management System API\\Http\\Attendance.http",
+              "ToolTip": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Attendance.http",
+              "RelativeToolTip": "Employee Management System API\\Http\\Attendance.http",
+              "ViewState": "AgIAABcAAAAAAAAAAAAswCsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-07-26T12:56:02.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "httpenv.json",
+              "DocumentMoniker": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\httpenv.json",
+              "RelativeDocumentMoniker": "Employee Management System API\\Http\\httpenv.json",
+              "ToolTip": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\httpenv.json",
+              "RelativeToolTip": "Employee Management System API\\Http\\httpenv.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-26T12:49:47.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Account.http",
+              "DocumentMoniker": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Account.http",
+              "RelativeDocumentMoniker": "Employee Management System API\\Http\\Account.http",
+              "ToolTip": "C:\\Exxxcube files\\Projects\\C#\\Employee Management System\\Employee Management System API\\Employee Management System API\\Http\\Account.http",
+              "RelativeToolTip": "Employee Management System API\\Http\\Account.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-07-26T12:49:29.878Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+
+@baseUrl = {{http}}
+@projectId = 2026-5566
+
+
+
+### Get All Project
+GET {{baseUrl}}/api/project?PageNumber=1&PageSize=3
+Authorization: Bearer {{token}}
+
+### Get Project by ID
+GET {{baseUrl}}/api/project/{{projectId}}
+Authorization: Bearer {{token}}
+
+### Create Project
+POST {{baseUrl}}/api/project
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "projectPub_ID": "2026-5566",
+  "projectName": "sample project",
+  "description": "aaaa",
+  "startDate": "2025-07-26",
+  "endDate": "2025-07-30",
+  "status": "Ongoing"
+}
+
+
+### Update Project
+PUT {{baseUrl}}/api/project/{{projectId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "projectPub_ID": "{{projectId}}",
+  "projectName": "sample project",
+  "description": "aaaa",
+  "startDate": "2025-07-26",
+  "endDate": "2025-08-26",
+  "status": "Ongoing"
+}
+
+
+### Delete Project
+DELETE {{baseUrl}}/api/project/{{projectId}}
+Authorization: Bearer {{token}}

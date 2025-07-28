@@ -1,0 +1,76 @@
+﻿using Employee_Management_System_API.DTOs.Request;
+using Employee_Management_System_API.Interfaces.Services;
+using Employee_Management_System_API.Queries.Payroll;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Employee_Management_System_API.Controllers
+{
+    [Route("api/Payroll")]
+    [ApiController]
+    public class PayrollController : ControllerBase
+    {
+        private readonly IPayrollService _payrollService;
+        public PayrollController(IPayrollService payrollService)
+        {
+            _payrollService = payrollService;
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "Payroll.View")]
+        public async Task<IActionResult> GetAll([FromQuery] QueryGetAllPayroll query)
+        {
+            var payroll = await _payrollService.GetAllPayrollAsync(query);
+            if (payroll is not null)
+                return Ok(payroll);
+            return NotFound("No records found.");
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Policy = "Payroll.ById")]
+        public async Task<IActionResult> GetbyId([FromRoute] string id)
+        {
+            var payroll = await _payrollService.GetPayrollByIdAsync(id);
+            if (payroll != null)
+                return Ok(payroll);
+            return NotFound("No records found!");
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "Payroll.Create")]
+        public async Task<IActionResult> Create([FromBody] UpsertPayrollRequest payroll)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _payrollService.CreatePayrollAsync(payroll);
+            return CreatedAtAction(nameof(GetbyId), new { id = result.PayrollPub_ID }, result);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize(Policy = "Payroll.Update")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpsertPayrollRequest payroll)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _payrollService.UpdatePayrollAsync(id, payroll);
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [Authorize(Policy = "Payroll.Delete")]
+        public async Task<IActionResult> Delete([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var payroll = await _payrollService.DeletePayrollAsync(id);
+            if (payroll)
+                return Ok("Payroll deleted successfully.");
+            return NotFound("No records found!");
+        }
+    }
+}

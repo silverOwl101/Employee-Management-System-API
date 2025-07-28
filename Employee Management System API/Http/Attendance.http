@@ -1,0 +1,44 @@
+@baseUrl = {{http}}
+@attendanceId = 2025-9608
+
+
+
+### Get All Attendance
+GET {{baseUrl}}/api/attendance?PageNumber=1&PageSize=3
+Authorization: Bearer {{token}}
+
+### Get Attendance by ID
+GET {{baseUrl}}/api/attendance/{{attendanceId}}
+Authorization: Bearer {{token}}
+
+### Create Attendance
+POST {{baseUrl}}/api/attendance
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "attendancePub_ID": "string",
+  "date": "2025-07-23",
+  "checkInTime": "string",
+  "checkOutTime": "string",
+  "status": "Present",
+  "employeePub_ID": "string"
+}
+
+### Update Attendance
+PUT {{baseUrl}}/api/attendance/{{attendanceId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "attendancePub_ID": "{{attendanceId}}",
+  "date": "2025-07-23",
+  "checkInTime": ""09:46:30",
+  "checkOutTime": "16:33:20",
+  "status": "Present",
+  "employeePub_ID": "string"
+}
+
+### Delete Attendance
+DELETE {{baseUrl}}/api/attendance/{{attendanceId}}
+Authorization: Bearer {{token}}

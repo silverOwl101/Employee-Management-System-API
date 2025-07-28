@@ -1,0 +1,43 @@
+
+@baseUrl = {{http}}
+@projectAssignment = 2025-7458
+
+### Get All Project assignment
+GET {{baseUrl}}/api/assignments?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Project assignment by ID
+GET {{baseUrl}}/api/assignments/{{projectAssignment}}
+Authorization: Bearer {{token}}
+
+### Create Project assignment
+POST {{baseUrl}}/api/assignments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "assignmentPub_ID": "string",
+  "roleInProject": "string",
+  "assignedDate": "2025-07-26",
+  "employeePub_ID": "string",
+  "projectPub_ID": "string"
+}
+
+
+### Update Project assignment
+PUT {{baseUrl}}/api/assignments/{{projectAssignment}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "assignmentPub_ID": "{{projectAssignment}}",
+  "roleInProject": "string",
+  "assignedDate": "2025-07-26",
+  "employeePub_ID": "string",
+  "projectPub_ID": "string"
+}
+
+
+### Delete Project assignment
+DELETE {{baseUrl}}/api/assignments/{{projectAssignment}}
+Authorization: Bearer {{token}}

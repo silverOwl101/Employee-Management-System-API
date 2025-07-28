@@ -1,0 +1,37 @@
+
+@baseUrl = {{http}}
+@phoneNumberId = 2025-2841
+
+### Get All Phone numbers
+GET {{baseUrl}}/api/phone-number?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Phone numbers by ID
+GET {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Authorization: Bearer {{token}}
+
+### Create Phone number record: To create a phone number record you must have an employeePub_ID
+POST {{baseUrl}}/api/phone-number
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "phoneNumberPub_ID": "string",
+  "phoneNumberValue": "string",
+  "employeePub_ID": "string"
+}
+
+### Update Phone number
+PUT {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "phoneNumberPub_ID": "{{phoneNumberId}}",
+  "phoneNumberValue": "string",
+  "employeePub_ID": "string"
+}
+
+### Delete Phone number
+DELETE {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Authorization: Bearer {{token}}

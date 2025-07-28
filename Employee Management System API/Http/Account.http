@@ -1,0 +1,32 @@
+@baseUrl = {{http}}
+
+### Login Request
+POST {{baseUrl}}/api/account/login
+Content-Type: application/json
+
+{
+  "userName": "sa",
+  "password": "company_Password101"
+}
+
+
+### Register Request (requires bearer token)
+POST {{baseUrl}}/api/account/register
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+  "firstName": "testing",
+  "middleName": "test",
+  "lastName": "testingting",
+  "email": "test@gmail.com",
+  "dateOfBirth": "2025-07-22",
+  "hireDate": "2025-07-22",
+  "address": "sample",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "userName": "testingUser",
+  "orgRole": "HRStaff",
+  "password": "user_Password101"
+}
