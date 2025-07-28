@@ -7,7 +7,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
-# Build results
+## Ignore build outputs
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -18,38 +22,76 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
-[Ll]ogs/
-
-# .NET Core
-project.lock.json
-project.fragment.lock.json
 artifacts/
 
-# ASP.NET Scaffolding
+## Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Ignore Visual Studio settings and temp
+.vs/
+*.vsp
+*.pdb
+*.cache
+*.mdb
+*.dbmdl
+*.log
+*.ncb
+*.opendb
+*.VC.db
+*.vspscc
+*.vssscc
+
+## Ignore Visual Studio Code
+.vscode/
+
+## Ignore JetBrains Rider
+.idea/
+
+## Ignore ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+## Ignore ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
-# NuGet Packages
-*.nupkg
-# NuGet Symbol Packages
-*.snupkg
-
-# Others
-~$*
-*~
-CodeCoverage/
-.vs/
-
-# MSBuild Binary and Structured Log
+## Ignore MSBuild logs
 *.binlog
 
-# MSTest test Results
+## Ignore MSTest results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-# NUnit
+## Ignore NUnit results
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+## Ignore Windows artifacts
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## Ignore temp files
+*.tmp
+*.bak
+*.swp
+~$*
+*~
+
+## Ignore .NET config/secrets (safe for commit)
+appsettings.*.json
+!appsettings.json
+secrets.json
+
+## Ignore NuGet packages
+*.nupkg
+*.snupkg
+
+## Ignore code coverage
+CodeCoverage/
+
+## Ignore migrations snapshots (optional)
+**/Migrations/*Snapshot.cs
