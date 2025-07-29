@@ -23,6 +23,9 @@ namespace Employee_Management_System_API.Controllers
             _employeeService = employeeService;
         }
 
+        /// <summary>
+        /// Register new account
+        /// </summary>
         [HttpPost("Register")]
         [Authorize(Policy = "Account.Register")]
         public async Task<IActionResult> Register([FromBody] InsertAccountRequest account)
@@ -54,6 +57,10 @@ namespace Employee_Management_System_API.Controllers
             });
         }
 
+
+        /// <summary>
+        /// Log-in
+        /// </summary>
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LogInRequest login)

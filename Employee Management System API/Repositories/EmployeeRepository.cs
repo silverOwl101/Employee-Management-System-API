@@ -70,13 +70,10 @@ namespace Employee_Management_System_API.Repositories
             return await EmployeePagination.Pagination(listOfEmployees, employeeQuery.PageNumber, employeeQuery.PageSize).ToListAsync();
         }
 
-        public async Task<Employee?> GetAttendancesAsync(QueryGetEmployeeAttendance employeeQuery)
+        public async Task<Employee?> GetAttendancesAsync(string id, QueryGetEmployeeAttendance employeeQuery)
         {
             var query = _context.Employees.Include(e => e.Attendances).AsNoTracking().AsQueryable();
-
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
+            
             var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
 
             if (employeeInformation is not null)
@@ -105,7 +102,7 @@ namespace Employee_Management_System_API.Repositories
             return employeeInformation;
         }
 
-        public async Task<Employee?> GetLeaveRequestsAsync(QueryGetEmployeeLeaveRequest employeeQuery)
+        public async Task<Employee?> GetLeaveRequestsAsync(string id, QueryGetEmployeeLeaveRequest employeeQuery)
         {
             var query = _context.Employees.Include(e => e.LeaveRequests).AsNoTracking().AsQueryable();
 
@@ -145,7 +142,7 @@ namespace Employee_Management_System_API.Repositories
             return employeeInformation;
         }
 
-        public async Task<Employee?> GetPayrollsAsync(QueryGetEmployeePayroll employeeQuery)
+        public async Task<Employee?> GetPayrollsAsync(string id, QueryGetEmployeePayroll employeeQuery)
         {
             var query = _context.Employees.Include(e => e.Payrolls).AsNoTracking().AsQueryable();
 
@@ -176,7 +173,7 @@ namespace Employee_Management_System_API.Repositories
             return employeeInformation;
         }
 
-        public async Task<Employee?> GetPerformanceReviewsAsync(QueryGetPerformanceReviewsAsync employeeQuery)
+        public async Task<Employee?> GetPerformanceReviewsAsync(string id, QueryGetPerformanceReviewsAsync employeeQuery)
         {
             var query = _context.Employees.Include(e => e.PerformanceReviews).AsNoTracking().AsQueryable();
 
@@ -209,7 +206,7 @@ namespace Employee_Management_System_API.Repositories
             return employeeInformation;
         }
 
-        public async Task<Employee?> GetPhoneNumbersAsync(QueryGetPhoneNumbersAsync employeeQuery)
+        public async Task<Employee?> GetPhoneNumbersAsync(string id, QueryGetPhoneNumbersAsync employeeQuery)
         {
             var query = _context.Employees.Include(e => e.PhoneNumbers).AsNoTracking().AsQueryable();
 
@@ -239,7 +236,7 @@ namespace Employee_Management_System_API.Repositories
             return employeeInformation;
         }
 
-        public async Task<Employee?> GetProjectAssignmentsAsync(QueryGetProjectAssignmentsAsync employeeQuery)
+        public async Task<Employee?> GetProjectAssignmentsAsync(string id, QueryGetProjectAssignmentsAsync employeeQuery)
         {
             var query = _context.Employees.Include(e => e.ProjectAssignments).ThenInclude(e => e.Project).AsNoTracking().AsQueryable();
 

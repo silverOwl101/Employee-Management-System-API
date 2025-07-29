@@ -17,8 +17,8 @@ namespace Employee_Management_System_API.Controllers
         }
 
         /// <summary>
-        /// View all employees.
-        /// </summary>
+        /// Get all employee records 
+        /// </summary>                
         [HttpGet]
         [Authorize(Policy = "Employee.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllEmployees employees)
@@ -30,6 +30,10 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the employee record details using employee public id
+        /// </summary>
+        /// <param name="id">Use the employee public id</param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Employee.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -41,72 +45,141 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("Employee not found.");
         }
 
+        /// <summary>
+        /// Get the attendance of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeeAttendance">
+        /// Query parameters for filtering or paginating the employee’s attendance.
+        /// </param>        
         [HttpGet("attendance")]
         [Authorize(Policy = "Employee.Attendance")]
-        public async Task<IActionResult> GetAttendance([FromQuery] QueryGetEmployeeAttendance employeeAttendance)
+        public async Task<IActionResult> GetAttendance([FromRoute] string id,
+                                                       [FromQuery] QueryGetEmployeeAttendance
+                                                                   employeeAttendance)
         {
-            var attendancRecords = await _employeeService.GetEmployeeAttendancesAsync(employeeAttendance);
+            var attendancRecords = await _employeeService.GetEmployeeAttendancesAsync(id, employeeAttendance);
             if (attendancRecords != null)
                 return Ok(attendancRecords);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the leave request of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeeLeaveRequest">
+        /// Query parameters for filtering or paginating the employee’s leave request.
+        /// </param>        
         [HttpGet("leave")]
         [Authorize(Policy = "Employee.LeaveRequest")]
-        public async Task<IActionResult> GetLeaveRequest([FromQuery] QueryGetEmployeeLeaveRequest employeeLeaveRequest)
+        public async Task<IActionResult> GetLeaveRequest([FromRoute] string id,
+                                                         [FromQuery] QueryGetEmployeeLeaveRequest 
+                                                                     employeeLeaveRequest)
         {
-            var employee = await _employeeService.GetEmployeeLeaveRequestsAsync(employeeLeaveRequest);
+            var employee = await _employeeService.GetEmployeeLeaveRequestsAsync(id, employeeLeaveRequest);
             if (employee != null)
                 return Ok(employee);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the payroll of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeePayrollRequest">
+        /// Query parameters for filtering or paginating the employee’s payroll request.
+        /// </param>        
         [HttpGet("payroll")]
         [Authorize(Policy = "Employee.Payroll")]
-        public async Task<IActionResult> GetPayroll([FromQuery] QueryGetEmployeePayroll employeePayrollRequest)
+        public async Task<IActionResult> GetPayroll([FromRoute] string id,
+                                                    [FromQuery] QueryGetEmployeePayroll
+                                                                employeePayrollRequest)
         {
-            var employee = await _employeeService.GetEmployeePayrollsAsync(employeePayrollRequest);
+            var employee = await _employeeService.GetEmployeePayrollsAsync(id, employeePayrollRequest);
             if (employee != null)
                 return Ok(employee);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the performance review of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeePerformanceReviewRequest">
+        /// Query parameters for filtering or paginating the employee’s performance review.
+        /// </param>        
         [HttpGet("appraisal")]
         [Authorize(Policy = "Employee.PerformanceReview")]
-        public async Task<IActionResult> GetPerformanceReview([FromQuery] QueryGetPerformanceReviewsAsync employeePerformanceReviewRequest)
+        public async Task<IActionResult> GetPerformanceReview([FromRoute] string id,
+                                                              [FromQuery] QueryGetPerformanceReviewsAsync
+                                                                          employeePerformanceReviewRequest)
         {
-            var employee = await _employeeService.GetEmployeePerformanceReviewsAsync(employeePerformanceReviewRequest);
+            var employee = await _employeeService.GetEmployeePerformanceReviewsAsync(id, employeePerformanceReviewRequest);
             if (employee != null)
                 return Ok(employee);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the contact number of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeePhoneNumberRequest">
+        /// Query parameters for filtering or paginating the employee’s phone number.
+        /// </param>        
         [HttpGet("contact")]
         [Authorize(Policy = "Employee.PhoneNumbers")]
-        public async Task<IActionResult> GetPhoneNumbers([FromQuery] QueryGetPhoneNumbersAsync employeePhoneNumberRequest)
+        public async Task<IActionResult> GetPhoneNumbers([FromRoute] string id,
+                                                         [FromQuery] QueryGetPhoneNumbersAsync
+                                                                     employeePhoneNumberRequest)
         {
-            var employee = await _employeeService.GetEmployeePhoneNumbersAsync(employeePhoneNumberRequest);
+            var employee = await _employeeService.GetEmployeePhoneNumbersAsync(id, employeePhoneNumberRequest);
             if (employee != null)
                 return Ok(employee);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get the project assignment of the employee
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
+        /// <param name="employeeProjectAssigmentRequest">
+        /// Query parameters for filtering or paginating the employee’s project assignments.
+        /// </param>        
         [HttpGet("task")]
         [Authorize(Policy = "Employee.ProjectAssignment")]
-        public async Task<IActionResult> GetProjectAssignment([FromQuery] QueryGetProjectAssignmentsAsync employeeProjectAssigmentRequest)
+        public async Task<IActionResult> GetProjectAssignment([FromRoute] string id,
+                                                              [FromQuery] QueryGetProjectAssignmentsAsync
+                                                                          employeeProjectAssigmentRequest)
         {
-            var employee = await _employeeService.GetEmployeeProjectAssignmentsAsync(employeeProjectAssigmentRequest);
+            var employee = await _employeeService.GetEmployeeProjectAssignmentsAsync(id, employeeProjectAssigmentRequest);
             if (employee != null)
                 return Ok(employee);
 
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Create new employee record
+        /// </summary>        
         [HttpPost]
         [Authorize(Policy = "Employee.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertEmployeeRequest emp)
@@ -118,6 +191,9 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.EmployeePub_ID }, result);
         }
 
+        /// <summary>
+        /// Update employee record
+        /// </summary>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Employee.Update")]
@@ -130,6 +206,9 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete employee record
+        /// </summary>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "Employee.Delete")]

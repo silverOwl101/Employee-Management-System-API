@@ -15,7 +15,7 @@ namespace Employee_Management_System_API.Controllers
         {
             _attendanceService = attendanceService;
         }
-
+        
         [HttpGet]
         [Authorize(Policy = "Attendance.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllAttendance query)

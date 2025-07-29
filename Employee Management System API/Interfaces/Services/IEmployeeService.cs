@@ -7,12 +7,12 @@ namespace Employee_Management_System_API.Interfaces.Services
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeResponse>> GetAllEmployeeAsync(QueryGetAllEmployees employees);
-        Task<EmployeePhoneNumberResponse> GetEmployeePhoneNumbersAsync(QueryGetPhoneNumbersAsync query);
-        Task<EmployeeAttendanceResponse> GetEmployeeAttendancesAsync(QueryGetEmployeeAttendance query);
-        Task<EmployeeLeaveResponse> GetEmployeeLeaveRequestsAsync(QueryGetEmployeeLeaveRequest query);
-        Task<EmployeePayrollResponse> GetEmployeePayrollsAsync(QueryGetEmployeePayroll query);
-        Task<EmployeeProjectAssignmentResponse> GetEmployeeProjectAssignmentsAsync(QueryGetProjectAssignmentsAsync query);
-        Task<EmployeePerformanceReviewResponse> GetEmployeePerformanceReviewsAsync(QueryGetPerformanceReviewsAsync query);
+        Task<EmployeePhoneNumberResponse> GetEmployeePhoneNumbersAsync(string id, QueryGetPhoneNumbersAsync query);
+        Task<EmployeeAttendanceResponse> GetEmployeeAttendancesAsync(string id, QueryGetEmployeeAttendance query);
+        Task<EmployeeLeaveResponse> GetEmployeeLeaveRequestsAsync(string id, QueryGetEmployeeLeaveRequest query);
+        Task<EmployeePayrollResponse> GetEmployeePayrollsAsync(string id, QueryGetEmployeePayroll query);
+        Task<EmployeeProjectAssignmentResponse> GetEmployeeProjectAssignmentsAsync(string id, QueryGetProjectAssignmentsAsync query);
+        Task<EmployeePerformanceReviewResponse> GetEmployeePerformanceReviewsAsync(string id, QueryGetPerformanceReviewsAsync query);
         Task<EmployeeResponse?> GetEmployeeByIdAsync(string id);
         Task<EmployeeResponse?> GetEmployeeByGuidAsync(Guid id);
         Task<EmployeeResponse> CreateEmployeeAsync(UpsertEmployeeRequest employee);

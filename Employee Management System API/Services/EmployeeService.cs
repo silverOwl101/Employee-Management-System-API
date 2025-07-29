@@ -85,9 +85,9 @@ namespace Employee_Management_System_API.Services
             }).ToList();
         }
 
-        public async Task<EmployeeAttendanceResponse> GetEmployeeAttendancesAsync(QueryGetEmployeeAttendance query)
+        public async Task<EmployeeAttendanceResponse> GetEmployeeAttendancesAsync(string id, QueryGetEmployeeAttendance query)
         {
-            var emp = await _employeeRepo.GetAttendancesAsync(query);
+            var emp = await _employeeRepo.GetAttendancesAsync(id, query);
 
             return emp is not null ? emp.ToEmployeeAttendanceResponse() : throw new KeyNotFoundException("No records found.");
         }
@@ -106,37 +106,37 @@ namespace Employee_Management_System_API.Services
             return emp != null ? emp.ToEmployeeResponse() : null;
         }
 
-        public async Task<EmployeeLeaveResponse> GetEmployeeLeaveRequestsAsync(QueryGetEmployeeLeaveRequest employeeLeaveRequest)
+        public async Task<EmployeeLeaveResponse> GetEmployeeLeaveRequestsAsync(string id, QueryGetEmployeeLeaveRequest employeeLeaveRequest)
         {
-            var emp = await _employeeRepo.GetLeaveRequestsAsync(employeeLeaveRequest);
+            var emp = await _employeeRepo.GetLeaveRequestsAsync(id, employeeLeaveRequest);
 
             return emp is not null ? emp.ToEmployeeLeaveResponse() : throw new KeyNotFoundException("No records found.");
         }
 
-        public async Task<EmployeePayrollResponse> GetEmployeePayrollsAsync(QueryGetEmployeePayroll employeePayrollRequest)
+        public async Task<EmployeePayrollResponse> GetEmployeePayrollsAsync(string id, QueryGetEmployeePayroll employeePayrollRequest)
         {
-            var emp = await _employeeRepo.GetPayrollsAsync(employeePayrollRequest);
+            var emp = await _employeeRepo.GetPayrollsAsync(id, employeePayrollRequest);
 
             return emp is not null ? emp.ToEmployeePayrollResponse() : throw new KeyNotFoundException("No records found.");
         }
 
-        public async Task<EmployeePerformanceReviewResponse> GetEmployeePerformanceReviewsAsync(QueryGetPerformanceReviewsAsync employeeQuery)
+        public async Task<EmployeePerformanceReviewResponse> GetEmployeePerformanceReviewsAsync(string id, QueryGetPerformanceReviewsAsync employeeQuery)
         {
-            var emp = await _employeeRepo.GetPerformanceReviewsAsync(employeeQuery);
+            var emp = await _employeeRepo.GetPerformanceReviewsAsync(id, employeeQuery);
 
             return emp is not null ? emp.ToEmployeePerformanceReviewResponse() : throw new KeyNotFoundException("No records found.");
         }
 
-        public async Task<EmployeePhoneNumberResponse> GetEmployeePhoneNumbersAsync(QueryGetPhoneNumbersAsync employeeQuery)
+        public async Task<EmployeePhoneNumberResponse> GetEmployeePhoneNumbersAsync(string id, QueryGetPhoneNumbersAsync employeeQuery)
         {
-            var emp = await _employeeRepo.GetPhoneNumbersAsync(employeeQuery);
+            var emp = await _employeeRepo.GetPhoneNumbersAsync(id, employeeQuery);
 
             return emp is not null ? emp.ToPhoneNumbersResponse() : throw new KeyNotFoundException("No records found.");
         }
 
-        public async Task<EmployeeProjectAssignmentResponse> GetEmployeeProjectAssignmentsAsync(QueryGetProjectAssignmentsAsync employeeQuery)
+        public async Task<EmployeeProjectAssignmentResponse> GetEmployeeProjectAssignmentsAsync(string id, QueryGetProjectAssignmentsAsync employeeQuery)
         {
-            var emp = await _employeeRepo.GetProjectAssignmentsAsync(employeeQuery);
+            var emp = await _employeeRepo.GetProjectAssignmentsAsync(id, employeeQuery);
 
             return emp is not null ? emp.ToEmployeeProjectAssignmentResponse() : throw new KeyNotFoundException("No records found.");
         }
