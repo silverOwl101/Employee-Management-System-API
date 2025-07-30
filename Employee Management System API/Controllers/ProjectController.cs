@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _projectService = projectService;
         }
 
+        /// <summary>
+        /// Get all project records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all project records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "Project.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllProject query)
@@ -26,6 +32,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get project record using project public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Project.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +48,15 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Get the list employees assigned in the project.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project public id.
+        /// </param>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating the list of employees in the project.
+        /// </param>        
         [HttpGet("{id}/employees-assigned")]
         [Authorize(Policy = "Project.GetEmployees")]
         public async Task<IActionResult> GetAssignedEmployees([FromRoute] string id, [FromQuery] QueryGetById query)
@@ -46,6 +67,13 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create new project record.
+        /// </summary>
+        /// <param name="project">
+        /// Parameters for creating new project record.
+        /// </param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Policy = "Project.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertProjectRequest project)
@@ -57,6 +85,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.ProjectPub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a project record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project public id.
+        /// </param>
+        /// <param name="project">
+        /// Parameters for updating project record.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Project.Update")]
@@ -69,6 +106,12 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a project record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project public id.
+        /// </param>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "Project.Delete")]

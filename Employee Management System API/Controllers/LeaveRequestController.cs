@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _leaveRequestService = leaveRequestService;
         }
 
+        /// <summary>
+        /// Get all leave request records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all leave request records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "LeaveRequest.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllLeaveRequest query)
@@ -26,6 +32,13 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get leave request record using leave request public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the leave request public id.
+        /// </param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize(Policy = "LeaveRequest.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +49,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create new leave request record.
+        /// </summary>
+        /// <param name="leaveRequest">
+        /// Parameters for creating new leave request record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "LeaveRequest.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertLeaveRequest_Request leaveRequest)
@@ -47,6 +66,16 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.LeavePub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a leave request record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the leave request public id.
+        /// </param>
+        /// <param name="leaveRequest">
+        /// Parameters for updating a leave request record.
+        /// </param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "LeaveRequest.Update")]
@@ -59,6 +88,12 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a leave request record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the leave request public id.
+        /// </param>
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "LeaveRequest.Delete")]

@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _projectAssignmentService = projectAssignmentService;
         }
 
+        /// <summary>
+        /// Get all project assignment records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all phone project assignment records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "ProjectAssignment.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllProjectAssignment query)
@@ -26,6 +32,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get project assignment record using project assignment public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project assignment public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "ProjectAssignment.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +48,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create new project assignment record.
+        /// </summary>
+        /// <param name="projectAssignment">
+        /// Parameters for creating new project assignment record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "ProjectAssignment.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertProjectAssignmentRequest projectAssignment)
@@ -47,6 +65,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.AssignmentPub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a project assignment record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project assignment public id.
+        /// </param>
+        /// <param name="projectAssignment">
+        /// Parameters for updating project assignment record.
+        /// </param>
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "ProjectAssignment.Update")]
@@ -60,6 +87,12 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a project assignment record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the project assignment public id.
+        /// </param>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "ProjectAssignment.Delete")]

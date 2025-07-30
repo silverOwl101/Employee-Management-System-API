@@ -7,11 +7,19 @@ namespace Employee_Management_System_API.Queries.Employee
 {
     public class QueryGetEmployeePayroll : QuerySortingAndPaginationBase
     {
-        [Required]
-        public string EmployeePub_ID { get; set; } = default!;
+        /// <summary>
+        /// Payroll public id filter for the employee payroll records
+        /// </summary>       
         public string? PayrollPub_ID { get; set; }
-       
+
+        /// <summary>
+        /// Pay date filter for the employee payroll records
+        /// </summary>       
         public DateOnly? PayDate { get; set; }
+
+        /// <summary>
+        /// Sort by filter for the employee payroll records
+        /// </summary>       
         public SortGetPayrollsAsync? Sortby { get; set; }
     }
 }

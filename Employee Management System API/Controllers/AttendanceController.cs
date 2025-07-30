@@ -15,7 +15,13 @@ namespace Employee_Management_System_API.Controllers
         {
             _attendanceService = attendanceService;
         }
-        
+
+        /// <summary>
+        /// Get all attendance records
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating the all employee’s attendance.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "Attendance.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllAttendance query)
@@ -26,6 +32,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get attendance record using attendance public id
+        /// </summary>
+        /// <param name="id">
+        /// Use the attendance public id
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Attendance.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +48,9 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create a new attendance record
+        /// </summary>        
         [HttpPost]
         [Authorize(Policy = "Attendance.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertAttendanceRequest attendance)
@@ -47,6 +62,16 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.AttendancePub_ID }, result);
         }
 
+
+        /// <summary>
+        /// Update an attendance record
+        /// </summary>
+        /// <param name="id">
+        /// Use the attendance public id
+        /// </param>
+        /// <param name="attendance">
+        /// Parameters for updating employee's attendance.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Attendance.Update")]
@@ -59,6 +84,13 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+
+        /// <summary>
+        /// Delete an attendance record
+        /// </summary>
+        /// <param name="id">
+        /// Use the attendance public id
+        /// </param>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "Attendance.Delete")]

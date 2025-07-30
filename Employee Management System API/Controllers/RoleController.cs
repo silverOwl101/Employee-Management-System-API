@@ -17,6 +17,12 @@ namespace Employee_Management_System_API.Controllers
             _roleService = roleService;
         }
 
+        /// <summary>
+        /// Get all employee job role records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all employee job role records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "Role.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllRole query)
@@ -24,9 +30,15 @@ namespace Employee_Management_System_API.Controllers
             var listOfRoles = await _roleService.GetAllRolesAsync(query);
             if(listOfRoles is not null)
                 return Ok(listOfRoles);
-            return NotFound("No departments found.");            
+            return NotFound("No records found.");            
         }
 
+        /// <summary>
+        /// Get employee job role record using role public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the role public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Role.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -37,6 +49,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound($"Role not found");
         }
 
+        /// <summary>
+        /// Create new employee job role record.
+        /// </summary>
+        /// <param name="role">
+        /// Parameters for creating new employee job role record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "Role.Create")]
         public async Task<IActionResult> Create([FromBody] UpsetRoleRequest role)
@@ -48,6 +66,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.RolePub_ID }, result);
         }
 
+        /// <summary>
+        /// Update role record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the role public id.
+        /// </param>
+        /// <param name="role">
+        /// Parameters for updating employee job role record.
+        /// </param>        
         [HttpPut("{id}")]
         [Authorize(Policy = "Role.Update")]
         public async Task<IActionResult> Update([FromRoute] string id, [FromBody] UpsetRoleRequest role)
@@ -61,6 +88,12 @@ namespace Employee_Management_System_API.Controllers
             return BadRequest("Update cannot be completed!");
         }
 
+        /// <summary>
+        /// Delete a role record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the role public id.
+        /// </param>        
         [HttpDelete("{id}")]
         [Authorize(Policy = "Role.Delete")]
         public async Task<IActionResult> Delete([FromRoute] string id)

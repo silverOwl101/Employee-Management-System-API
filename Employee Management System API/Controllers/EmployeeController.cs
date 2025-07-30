@@ -33,7 +33,9 @@ namespace Employee_Management_System_API.Controllers
         /// <summary>
         /// Get the employee record details using employee public id
         /// </summary>
-        /// <param name="id">Use the employee public id</param>        
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Employee.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -79,7 +81,7 @@ namespace Employee_Management_System_API.Controllers
         [HttpGet("leave")]
         [Authorize(Policy = "Employee.LeaveRequest")]
         public async Task<IActionResult> GetLeaveRequest([FromRoute] string id,
-                                                         [FromQuery] QueryGetEmployeeLeaveRequest 
+                                                         [FromQuery] QueryGetEmployeeLeaveRequest
                                                                      employeeLeaveRequest)
         {
             var employee = await _employeeService.GetEmployeeLeaveRequestsAsync(id, employeeLeaveRequest);
@@ -192,8 +194,11 @@ namespace Employee_Management_System_API.Controllers
         }
 
         /// <summary>
-        /// Update employee record
-        /// </summary>        
+        /// Update an employee record
+        /// </summary>
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Employee.Update")]
@@ -207,8 +212,11 @@ namespace Employee_Management_System_API.Controllers
         }
 
         /// <summary>
-        /// Delete employee record
+        /// Delete an employee record
         /// </summary>        
+        /// <param name="id">
+        /// Use the employee public id
+        /// </param>
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "Employee.Delete")]

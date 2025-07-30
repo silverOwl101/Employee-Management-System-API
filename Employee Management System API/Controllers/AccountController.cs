@@ -59,7 +59,7 @@ namespace Employee_Management_System_API.Controllers
 
 
         /// <summary>
-        /// Log-in
+        /// Log-in account
         /// </summary>
         [HttpPost("Login")]
         [AllowAnonymous]
@@ -95,6 +95,15 @@ namespace Employee_Management_System_API.Controllers
                 Email = userExist.Email,
                 Token = await _tokenService.CreateToken(userExist)
             });
+        }
+
+        /// <summary>
+        /// Log-out account
+        /// </summary>        
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            return Unauthorized("System under maintenance!");
         }
     }
 }

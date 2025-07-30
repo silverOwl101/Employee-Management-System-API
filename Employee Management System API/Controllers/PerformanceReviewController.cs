@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _performanceReviewService = performanceReviewService;
         }
 
+        /// <summary>
+        /// Get all performance review records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all performance review records.
+        /// </param>
         [HttpGet]
         [Authorize(Policy = "PerformanceReview.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllPerformanceReview query)
@@ -26,6 +32,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get performance review record using performance review public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the performance review public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "PerformanceReview.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +48,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create new performance review record.
+        /// </summary>
+        /// <param name="performanceReview">
+        /// Parameters for creating new performance review record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "PerformanceReview.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertPerformanceReviewRequest performanceReview)
@@ -47,6 +65,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.ReviewPub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a performance review record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the performance review public id.
+        /// </param>
+        /// <param name="performanceReview">
+        /// Parameters for updating performance review record.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "PerformanceReview.Update")]
@@ -60,6 +87,12 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a performance review record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the performance review public id.
+        /// </param>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "PerformanceReview.Delete")]

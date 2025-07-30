@@ -74,7 +74,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.Attendances).AsNoTracking().AsQueryable();
             
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {
@@ -106,10 +107,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.LeaveRequests).AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {
@@ -146,10 +145,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.Payrolls).AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {
@@ -177,10 +174,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.PerformanceReviews).AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {
@@ -210,10 +205,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.PhoneNumbers).AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {
@@ -240,10 +233,8 @@ namespace Employee_Management_System_API.Repositories
         {
             var query = _context.Employees.Include(e => e.ProjectAssignments).ThenInclude(e => e.Project).AsNoTracking().AsQueryable();
 
-            if (!string.IsNullOrEmpty(employeeQuery.EmployeePub_ID))
-                query = query.Where(e => e.EmployeePub_ID == employeeQuery.EmployeePub_ID); // filter employee using EmployeePub_ID
-
-            var employeeInformation = await query.FirstOrDefaultAsync(); // get the employee model properties
+            // get the employee model properties
+            var employeeInformation = await query.FirstOrDefaultAsync(e => e.EmployeePub_ID == id);
 
             if (employeeInformation is not null)
             {

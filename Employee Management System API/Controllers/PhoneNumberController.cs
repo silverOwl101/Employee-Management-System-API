@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _phoneService = phoneService;
         }
 
+        /// <summary>
+        /// Get all phone number records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all phone number records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "PhoneNumber.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllPhoneNumbers query)
@@ -27,6 +33,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get phone number record using phone number public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the phone number public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "PhoneNumber.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -38,6 +50,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("Phone number not found!");
         }
 
+        /// <summary>
+        /// Create new phone number record.
+        /// </summary>
+        /// <param name="phoneNumber">
+        /// Parameters for creating new phone number record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "PhoneNumber.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertPhoneNumberRequest phoneNumber)
@@ -49,6 +67,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.PhoneNumberPub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a phone number record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the phone number public id.
+        /// </param>
+        /// <param name="phoneNumber">
+        /// Parameters for updating phone number record.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "PhoneNumber.Update")]
@@ -61,6 +88,13 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a phone number record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the phone number public id.
+        /// </param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "PhoneNumber.Delete")]

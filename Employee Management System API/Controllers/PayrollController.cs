@@ -16,6 +16,12 @@ namespace Employee_Management_System_API.Controllers
             _payrollService = payrollService;
         }
 
+        /// <summary>
+        /// Get all payroll records.
+        /// </summary>
+        /// <param name="query">
+        /// Query parameters for filtering or paginating all payroll records.
+        /// </param>        
         [HttpGet]
         [Authorize(Policy = "Payroll.View")]
         public async Task<IActionResult> GetAll([FromQuery] QueryGetAllPayroll query)
@@ -26,6 +32,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found.");
         }
 
+        /// <summary>
+        /// Get payroll records using payroll public id.
+        /// </summary>
+        /// <param name="id">
+        /// Use the payroll public id.
+        /// </param>        
         [HttpGet("{id}")]
         [Authorize(Policy = "Payroll.ById")]
         public async Task<IActionResult> GetbyId([FromRoute] string id)
@@ -36,6 +48,12 @@ namespace Employee_Management_System_API.Controllers
             return NotFound("No records found!");
         }
 
+        /// <summary>
+        /// Create new payroll record.
+        /// </summary>
+        /// <param name="payroll">
+        /// Parameters for creating new payroll record.
+        /// </param>        
         [HttpPost]
         [Authorize(Policy = "Payroll.Create")]
         public async Task<IActionResult> Create([FromBody] UpsertPayrollRequest payroll)
@@ -47,6 +65,15 @@ namespace Employee_Management_System_API.Controllers
             return CreatedAtAction(nameof(GetbyId), new { id = result.PayrollPub_ID }, result);
         }
 
+        /// <summary>
+        /// Update a payroll record.
+        /// </summary>
+        /// <param name="id">
+        /// Use the payroll public id.
+        /// </param>
+        /// <param name="payroll">
+        /// Parameters for updating payroll record.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Payroll.Update")]
@@ -59,6 +86,12 @@ namespace Employee_Management_System_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Delete a payroll record.
+        /// </summary>
+        /// <param name="id">
+        /// Parameters for deleting payroll record.
+        /// </param>        
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Policy = "Payroll.Delete")]
