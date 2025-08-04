@@ -7,7 +7,7 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Technologies Used](#technologies-used) **🚧 Note:** Under construction and will be updated soon.
+* [Technologies Used](#technologies-used)
 * [Key Features](#key-features) **🚧 Note:** Under construction and will be updated soon.
 * [Getting Started](#getting-started) **🚧 Note:** Under construction and will be updated soon.
 * [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
