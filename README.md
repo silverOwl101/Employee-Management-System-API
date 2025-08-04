@@ -52,6 +52,7 @@ This project provides a fully featured REST API for managing employee-related op
 | 🛆 Leave Management   | Track and manage leave requests                         |
 | 📱 Project Assignment | Assign and monitor project-based employee participation |
 
+> **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
 
 <h2 id="getting-started">🚀 Getting Started</h2>
@@ -94,6 +95,7 @@ This project provides a fully featured REST API for managing employee-related op
 * Tokens include roles and policy-based claims
 * Secure endpoints with `[Authorize(Policy = "...")]`
 
+> **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
 
 <h2 id="api-endpoints">📫 API Endpoints</h2>
