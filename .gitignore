@@ -93,5 +93,5 @@ secrets.json
 ## Ignore code coverage
 CodeCoverage/
 
-## Ignore migrations snapshots (optional)
-**/Migrations/*Snapshot.cs
+## Ignore migration folder
+**/Migrations

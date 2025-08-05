@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Employee_Management_System_API.Data
 {
@@ -43,13 +42,13 @@ namespace Employee_Management_System_API.Data
                     property.SetDefaultValueSql("NEWSEQUENTIALID()");
                 }
             }
-            
+
             //Enum to string mappings
             modelBuilder.Entity<Employee>().Property(e => e.Status).HasConversion<string>();
             modelBuilder.Entity<Attendance>().Property(a => a.Status).HasConversion<string>();
             modelBuilder.Entity<LeaveRequest>().Property(l => l.LeaveType).HasConversion<string>();
             modelBuilder.Entity<LeaveRequest>().Property(l => l.Status).HasConversion<string>();
-            modelBuilder.Entity<Project>().Property(p => p.Status).HasConversion<string>();            
+            modelBuilder.Entity<Project>().Property(p => p.Status).HasConversion<string>();
 
             //Check constraint for PerformanceReview.Score
             modelBuilder.Entity<PerformanceReview>()
@@ -62,7 +61,7 @@ namespace Employee_Management_System_API.Data
             //Unique constraints
             modelBuilder.Entity<Employee>().HasIndex(e => e.Email).IsUnique();
             modelBuilder.Entity<Department>().HasIndex(d => d.DepartmentName).IsUnique();
-            
+
             //Seed Roles
             List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>
             {
@@ -263,7 +262,7 @@ namespace Employee_Management_System_API.Data
             new IdentityRoleClaim<Guid> { Id = 57, RoleId = superAdminRoleId, ClaimType = "Role.Delete", ClaimValue = "true" },
 
             // HRManager Role Claims
-            new IdentityRoleClaim<Guid> { Id = 58, RoleId = hrManagerRoleId, ClaimType = "Employee.View", ClaimValue = "true" },                        
+            new IdentityRoleClaim<Guid> { Id = 58, RoleId = hrManagerRoleId, ClaimType = "Employee.View", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 59, RoleId = hrManagerRoleId, ClaimType = "Department.View", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 60, RoleId = hrManagerRoleId, ClaimType = "LeaveRequest.Approve", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 61, RoleId = hrManagerRoleId, ClaimType = "LeaveRequest.ById", ClaimValue = "true" },
@@ -290,7 +289,7 @@ namespace Employee_Management_System_API.Data
             new IdentityRoleClaim<Guid> { Id = 72, RoleId = leaveApproverRoleId, ClaimType = "LeaveRequest.Update", ClaimValue = "true" },
 
             // LeaveCoordinator Role Claims
-            new IdentityRoleClaim<Guid> { Id = 73, RoleId = leaveCoordinatorRoleId, ClaimType = "LeaveRequest.View", ClaimValue = "true" },            
+            new IdentityRoleClaim<Guid> { Id = 73, RoleId = leaveCoordinatorRoleId, ClaimType = "LeaveRequest.View", ClaimValue = "true" },
 
             // ProjectManager Role Claims
             new IdentityRoleClaim<Guid> { Id = 74, RoleId = projectManagerRoleId, ClaimType = "Project.View", ClaimValue = "true" },
@@ -302,8 +301,8 @@ namespace Employee_Management_System_API.Data
             // ProjectLead Role Claims
             new IdentityRoleClaim<Guid> { Id = 79, RoleId = projectLeadRoleId, ClaimType = "ProjectAssignment.Create", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 80, RoleId = projectLeadRoleId, ClaimType = "ProjectAssignment.Update", ClaimValue = "true" },
-            new IdentityRoleClaim<Guid> { Id = 81, RoleId = projectLeadRoleId, ClaimType = "Project.View", ClaimValue = "true" },            
-            new IdentityRoleClaim<Guid> { Id = 82, RoleId = projectLeadRoleId, ClaimType = "Project.ById", ClaimValue = "true" },            
+            new IdentityRoleClaim<Guid> { Id = 81, RoleId = projectLeadRoleId, ClaimType = "Project.View", ClaimValue = "true" },
+            new IdentityRoleClaim<Guid> { Id = 82, RoleId = projectLeadRoleId, ClaimType = "Project.ById", ClaimValue = "true" },
 
             // ProjectCoordinator Role Claims
             new IdentityRoleClaim<Guid> { Id = 83, RoleId = projectCoordinatorRoleId, ClaimType = "Project.View", ClaimValue = "true" },
@@ -320,7 +319,7 @@ namespace Employee_Management_System_API.Data
             new IdentityRoleClaim<Guid> { Id = 90, RoleId = departmentHeadRoleId, ClaimType = "PerformanceReview.View", ClaimValue = "true" },
 
             // Employee Role Claims
-            new IdentityRoleClaim<Guid> { Id = 91, RoleId = employeeRoleId, ClaimType = "Employee.View", ClaimValue = "true" },            
+            new IdentityRoleClaim<Guid> { Id = 91, RoleId = employeeRoleId, ClaimType = "Employee.View", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 92, RoleId = employeeRoleId, ClaimType = "Employee.Attendance", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 93, RoleId = employeeRoleId, ClaimType = "Employee.LeaveRequest", ClaimValue = "true" },
             new IdentityRoleClaim<Guid> { Id = 94, RoleId = employeeRoleId, ClaimType = "Employee.Payroll", ClaimValue = "true" },
@@ -334,7 +333,7 @@ namespace Employee_Management_System_API.Data
 
             new IdentityRoleClaim<Guid> { Id = 100, RoleId = superAdminRoleId, ClaimType = "Account.Register", ClaimValue = "true" }
             );
-            
+
             //Relationships
 
             // Employee - Department (many-to-one)

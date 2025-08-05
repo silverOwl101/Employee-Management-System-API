@@ -8,7 +8,7 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 
 * [Introduction](#introduction)
 * [Technologies Used](#technologies-used)
-* [Key Features](#key-features) **🚧 Note:** Under construction and will be updated soon.
+* [Key Features](#key-features)
 * [Getting Started](#getting-started) **🚧 Note:** Under construction and will be updated soon.
 * [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
 * [Authorization (RBAC)](#authorization-rbac) **🚧 Note:** Under construction and will be updated soon.
@@ -34,9 +34,10 @@ This project provides a fully featured REST API for managing employee-related op
 | **ORM**               | Entity Framework Core (Code First)        |
 | **Authentication**    | [JWT](https://www.jwt.io/) (JSON Web Tokens)|
 | **Authorization**     | Role-Based Access Control (RBAC)          |
-| **Database**          | MSSQL                                     |
+| **Database**          | MSSQL (via Docker container)                              |
+| **Development Env**   | [Docker](https://www.docker.com/) (used for MSSQL Server container)                              |
 | **IDE**               | [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)                        |
-| **Documentation**     | [Swagger / Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore?tab=readme-ov-file)|
+| **Documentation**     | [Swagger](https://swagger.io/) / [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore?tab=readme-ov-file)|
 | **Test Data Seeding** | [Bogus for .NET](https://github.com/bchavez/Bogus) (C# fake data generator)|
 
 ---
@@ -52,16 +53,69 @@ This project provides a fully featured REST API for managing employee-related op
 | 🛆 Leave Management   | Track and manage leave requests                         |
 | 📱 Project Assignment | Assign and monitor project-based employee participation |
 
-> **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
 
 <h2 id="getting-started">🚀 Getting Started</h2>
 
-1. Clone the repository
-2. Set up your SQL Server and update `appsettings.json`
-3. Run database migrations: `dotnet ef database update`
-4. Launch the API: `dotnet run`
-5. Use Swagger or `.http` files to test endpoints
+To use this API, you need to follow these steps:
+
+1. Clone the repository or you can [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the repository if you want.
+
+```bash
+git clone https://github.com/silverOwl101/Employee-Management-System-API.git
+```
+2. After you clone the repository, open the solution file and build it.
+3. Download and install [Docker desktop](https://www.docker.com/products/docker-desktop/).
+4. Run the MSSQL Server via Docker      
+      1. Make sure Docker Desktop is installed and running.
+      2. Open PowerShell or your terminal of choice.
+      3. Run the following command:
+      ```bash
+      docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Pass123" -p 1433:1433 --name mssql -d mcr.microsoft.com/mssql/server:2022-latest      
+      ```
+5. Set up [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows).
+      1. Make sure the solution file is open.      
+      2. Open Developer PowerShell or your terminal of choice.
+      2. Run the following command.
+      ```bash
+      # Assign your values here
+      $superAdminGuid = "YOUR_GUID_HERE"
+      $superAdminUsername = "sa"
+      $superAdminEmail = "your_email@example.com"
+      $superAdminPassword = "YOUR_STRONG_PASSWORD"
+      $DataBasePassword = "YOUR_STRONG_DATABASE_PASSWORD"
+      $databaseName = "YOUR_DATABASE_NAME"
+      $jwtSigningKey = "YOUR_JWT:SigningKey"
+
+      # Clear and init user-secrets
+      dotnet user-secrets clear
+      dotnet user-secrets init
+
+      # Set secrets
+      dotnet user-secrets set "SeedSuperAdmin:SuperAdminGuid" $superAdminGuid
+      dotnet user-secrets set "SeedSuperAdmin:SuperAdminUsername" $superAdminUsername
+      dotnet user-secrets set "SeedSuperAdmin:SuperAdminEmail" $superAdminEmail
+      dotnet user-secrets set "SeedSuperAdmin:SuperAdminPassword" $superAdminPassword
+
+      # Connection string (replace "localhost,1433" if your server is different)
+      $connectionString = "Server=localhost,1433;Database=$databaseName;User Id=sa;Password=$DataBasePassword;Integrated Security=False;TrustServerCertificate=True;"
+      dotnet user-secrets set "ConnectionStrings:default" $connectionString
+
+      # JWT Signing Key
+      dotnet user-secrets set "JWT:SigningKey" $jwtSigningKey
+
+      ```
+6. Set up [Entity Framework Core migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli).
+      1. Open Package Manager Console `Tools -> NuGet Package Manager -> Package Manager Console`.
+      2. Create your first migration
+      ```bash
+      Add-Migration InitialCreate
+      ```
+      3. Create your database and schema
+      ```bash
+      Update-Database
+      ```
+7. Build and run the API project `(e.g., Employee_Management_System_API)` to launch the application.
 
 > **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
