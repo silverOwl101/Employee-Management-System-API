@@ -9,7 +9,7 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 * [Introduction](#introduction)
 * [Technologies Used](#technologies-used)
 * [Key Features](#key-features)
-* [Getting Started](#getting-started) **🚧 Note:** Under construction and will be updated soon.
+* [Getting Started](#getting-started)
 * [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
 * [Authorization (RBAC)](#authorization-rbac) **🚧 Note:** Under construction and will be updated soon.
 * [Authentication (JWT)](#authentication-jwt) **🚧 Note:** Under construction and will be updated soon.
@@ -76,7 +76,7 @@ git clone https://github.com/silverOwl101/Employee-Management-System-API.git
 5. Set up [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows).
       1. Make sure the solution file is open.      
       2. Open Developer PowerShell or your terminal of choice.
-      2. Run the following command.
+      2. Run the following command. **Note:** Make sure to fill in the necessary PowerShell variables.
       ```bash
       # Assign your values here
       $superAdminGuid = "YOUR_GUID_HERE"
@@ -111,13 +111,21 @@ git clone https://github.com/silverOwl101/Employee-Management-System-API.git
       ```bash
       Add-Migration InitialCreate
       ```
-      3. Create your database and schema
+      3. Review the generated migration file.
+      **Make sure it reflects the correct schema based on the ApplicationDbContext.**
+      4. Apply the migration to create the database and schema:
       ```bash
       Update-Database
       ```
-7. Build and run the API project `(e.g., Employee_Management_System_API)` to launch the application.
+7. Uncomment the code in *Program.cs* line 198 to create an `sa` (Super Admin).
+      ```
+      await DbSeeder.SeedSuperAdmin(app.Services);
+      ```
+8. Build and run the API project `(e.g., Employee_Management_System_API)` to launch the application.
+9. If you see the Swagger page after running the project, congratulations! You can now use the API for your project.
 
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** After you create the 'sa', you can choose to comment out line 198 in *Program.cs*. It's also okay not to comment it out, as the code will prevent duplication if the 'sa' is already created.
+
 ---
 
 <h2 id="project-structure">📂 Project Structure</h2>

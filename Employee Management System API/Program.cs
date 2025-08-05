@@ -6,6 +6,7 @@ using Employee_Management_System_API.Interfaces.Repositories;
 using Employee_Management_System_API.Interfaces.Services;
 using Employee_Management_System_API.Middleware;
 using Employee_Management_System_API.Repositories;
+using Employee_Management_System_API.Seeders;
 using Employee_Management_System_API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
