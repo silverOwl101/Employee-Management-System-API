@@ -57,26 +57,41 @@ This project provides a fully featured REST API for managing employee-related op
 
 <h2 id="getting-started">🚀 Getting Started</h2>
 
-To use this API, you need to follow these steps:
+To use this API, follow the steps below:
 
-1. Clone the repository or you can [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the repository if you want.
+
+### 1. Clone or Fork the Repository
+
+You can clone the repository or [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) it if you want to contribute:
 
 ```bash
 git clone https://github.com/silverOwl101/Employee-Management-System-API.git
-```
-2. After you clone the repository, open the solution file and build it.
-3. Download and install [Docker desktop](https://www.docker.com/products/docker-desktop/).
-4. Run the MSSQL Server via Docker      
-      1. Make sure Docker Desktop is installed and running.
-      2. Open PowerShell or your terminal of choice.
-      3. Run the following command:
+````
+
+### 2. Build the Solution
+
+After cloning, open the solution file in Visual Studio and build the project.
+
+### 3. Install Docker Desktop
+
+Download and install [Docker Desktop](https://www.docker.com/products/docker-desktop) for your operating system.
+
+### 4. Run Microsoft SQL Server via Docker
+
+1. Make sure Docker Desktop is installed and running.
+2. Open PowerShell or your preferred terminal.
+3. Run the following command:
       ```bash
-      docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Pass123" -p 1433:1433 --name mssql -d mcr.microsoft.com/mssql/server:2022-latest      
+      docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Pass123" -p 1433:1433 --name mssql -d mcr.microsoft.com/mssql/server:2022-latest
       ```
-5. Set up [User Secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows).
-      1. Make sure the solution file is open.      
-      2. Open Developer PowerShell or your terminal of choice.
-      2. Run the following command. **Note:** Make sure to fill in the necessary PowerShell variables.
+
+### 5. Set Up User Secrets
+
+Follow the [official Microsoft guide](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows) for detailed instructions.
+
+1. Open the solution in Visual Studio.
+2. Open Developer PowerShell or your preferred terminal.
+3. Run the following commands, replacing variables with your actual values:
       ```bash
       # Assign your values here
       $superAdminGuid = "YOUR_GUID_HERE"
@@ -87,44 +102,64 @@ git clone https://github.com/silverOwl101/Employee-Management-System-API.git
       $databaseName = "YOUR_DATABASE_NAME"
       $jwtSigningKey = "YOUR_JWT:SigningKey"
 
-      # Clear and init user-secrets
+      # Clear and initialize user secrets
       dotnet user-secrets clear
       dotnet user-secrets init
 
-      # Set secrets
+      # Set user secrets
       dotnet user-secrets set "SeedSuperAdmin:SuperAdminGuid" $superAdminGuid
       dotnet user-secrets set "SeedSuperAdmin:SuperAdminUsername" $superAdminUsername
       dotnet user-secrets set "SeedSuperAdmin:SuperAdminEmail" $superAdminEmail
       dotnet user-secrets set "SeedSuperAdmin:SuperAdminPassword" $superAdminPassword
 
-      # Connection string (replace "localhost,1433" if your server is different)
+      # Connection string (adjust if your server differs)
       $connectionString = "Server=localhost,1433;Database=$databaseName;User Id=sa;Password=$DataBasePassword;Integrated Security=False;TrustServerCertificate=True;"
       dotnet user-secrets set "ConnectionStrings:default" $connectionString
 
       # JWT Signing Key
       dotnet user-secrets set "JWT:SigningKey" $jwtSigningKey
-
       ```
-6. Set up [Entity Framework Core migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli).
-      1. Open Package Manager Console `Tools -> NuGet Package Manager -> Package Manager Console`.
-      2. Create your first migration
+
+### 6. Set Up Entity Framework Core Migrations
+
+Follow the [EF Core migration guide](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli).
+
+1. Open the **Package Manager Console**:
+   `Tools → NuGet Package Manager → Package Manager Console`
+
+2. Create the initial migration:
       ```bash
       Add-Migration InitialCreate
       ```
-      3. Review the generated migration file.
-      **Make sure it reflects the correct schema based on the ApplicationDbContext.**
-      4. Apply the migration to create the database and schema:
+3. Review the generated migration file to ensure it matches your `ApplicationDbContext`.
+
+4. Apply the migration to create the database:
+
       ```bash
       Update-Database
       ```
-7. Uncomment the code in *Program.cs* line 198 to create an `sa` (Super Admin).
-      ```
-      await DbSeeder.SeedSuperAdmin(app.Services);
-      ```
-8. Build and run the API project `(e.g., Employee_Management_System_API)` to launch the application.
-9. If you see the Swagger page after running the project, congratulations! You can now use the API for your project.
 
-> **🚧 Note:** After you create the 'sa', you can choose to comment out line 198 in *Program.cs*. It's also okay not to comment it out, as the code will prevent duplication if the 'sa' is already created.
+### 7. Enable Super Admin Seeding
+
+To seed the default `sa` (Super Admin) account:
+
+In `Program.cs`, **uncomment** line 198:
+
+```csharp
+await DbSeeder.SeedSuperAdmin(app.Services);
+```
+
+> **📝 Note:** After the Super Admin is created, you may comment this line again. However, leaving it uncommented is safe, duplicate creation is prevented.
+
+### 8. Build and Run the API
+
+Set the `Employee_Management_System_API` project as the startup project, then build and run it.
+
+### 9. Verify Swagger Launch
+
+If the Swagger UI appears after the project launches, your API setup is complete.
+
+> **🎉 Congratulations!** You can now use the API for your project.
 
 ---
 
@@ -138,9 +173,7 @@ git clone https://github.com/silverOwl101/Employee-Management-System-API.git
 ├── Models
 ├── DTOs
 ├── Data
-├── Middleware
-├── Migrations
-└── wwwroot
+└── Middleware
 ```
 > **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
@@ -161,8 +194,6 @@ git clone https://github.com/silverOwl101/Employee-Management-System-API.git
 ---
 
 <h2 id="api-endpoints">📫 API Endpoints</h2>
-
-
 
 All endpoints follow REST conventions: 
 
