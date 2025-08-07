@@ -79,8 +79,11 @@ Download and install [Docker Desktop](https://www.docker.com/products/docker-des
 ### 4. Run Microsoft SQL Server via Docker
 
 1. Make sure Docker Desktop is installed and running.
+
 2. Open PowerShell or your preferred terminal.
+
 3. Run the following command:
+
       ```bash
       docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong!Pass123" -p 1433:1433 --name mssql -d mcr.microsoft.com/mssql/server:2022-latest
       ```
@@ -90,8 +93,11 @@ Download and install [Docker Desktop](https://www.docker.com/products/docker-des
 Follow the [official Microsoft guide](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-9.0&tabs=windows) for detailed instructions.
 
 1. Open the solution in Visual Studio.
+
 2. Open Developer PowerShell or your preferred terminal.
+
 3. Run the following commands, replacing variables with your actual values:
+
       ```bash
       # Assign your values here
       $superAdminGuid = "YOUR_GUID_HERE"
@@ -128,6 +134,7 @@ Follow the [EF Core migration guide](https://learn.microsoft.com/en-us/ef/core/m
    `Tools → NuGet Package Manager → Package Manager Console`
 
 2. Create the initial migration:
+
       ```bash
       Add-Migration InitialCreate
       ```
