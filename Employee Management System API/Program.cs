@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Net;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -26,6 +25,9 @@ namespace Employee_Management_System_API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Change allowedOrigins variable to AllowedProductionOrigins for Production Deployment.
+            //Change allowedOrigins variable to AllowedDevelopmentOrigins for Development.
+            var allowedOrigins = builder.Configuration.GetSection("AllowedDevelopmentOrigins").Get<string[]>();
             // Add services to the container.
 
             builder.Services.AddControllers()
@@ -33,6 +35,17 @@ namespace Employee_Management_System_API
                 {
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+
+            builder.Services.AddCors(options => 
+            {
+                options.AddPolicy("DevCorsPolicy", policy => 
+                {
+                    policy.WithOrigins(allowedOrigins!)
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+                });
+            });
 
             //For 400 global model validation
             builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -63,30 +76,57 @@ namespace Employee_Management_System_API
 
             builder.Services.AddSwaggerGen(option =>
             {
-                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee Management System API", Version = "v1" });
-                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter JWT token here",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
-                });
-                option.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[]{}
-                    }
-                });
+                //option.SwaggerDoc("v1", new OpenApiInfo { Title = "Employee Management System API", Version = "v1" });
+                ////jwt based
+                //option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                //{
+                //    In = ParameterLocation.Header,
+                //    Description = "Please enter JWT token here",
+                //    Name = "Authorization",
+                //    Type = SecuritySchemeType.Http,
+                //    BearerFormat = "JWT",
+                //    Scheme = "Bearer"
+                //});
+                
+                //option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //            Reference = new OpenApiReference
+                //            {
+                //                Type = ReferenceType.SecurityScheme,
+                //                Id = "Bearer"
+                //            }
+                //        },
+                //        new string[]{}
+                //    }
+                //});
+
+                ////cookiebased
+                //option.AddSecurityDefinition("cookieAuth", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                //{
+                //    Name = "accessToken",
+                //    Type = SecuritySchemeType.ApiKey,
+                //    In = ParameterLocation.Cookie,
+                //    Description = "Jwt stored in HttpOnly cookie"
+                //});
+
+                //option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    {
+                //        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                //        {
+                //            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                //            {
+                //                Type = ReferenceType.SecurityScheme,
+                //                Id = "cookieAuth"
+                //            }   
+                //        },
+                //        Array.Empty<string>()
+                //    }
+                //});
+                
 
                 option.CustomSchemaIds(type => type.Name);
 
@@ -125,11 +165,12 @@ namespace Employee_Management_System_API
                     ValidIssuer = builder.Configuration["JWT:Issuer"],
                     ValidateAudience = true,
                     ValidAudience = builder.Configuration["JWT:Audience"],
+                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey
                                 (System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
                 };
-
+                                
                 // For 401 and 403 JWT Global error
                 options.Events = new JwtBearerEvents
                 {
@@ -160,6 +201,15 @@ namespace Employee_Management_System_API
                             Path = context.HttpContext.Request.Path,
                             TraceId = context.HttpContext.TraceIdentifier
                         });
+                    },
+                    
+                    OnMessageReceived = context =>
+                    {
+                        if (context.Request.Cookies.ContainsKey("AccessToken"))
+                        {
+                            context.Token = context.Request.Cookies["AccessToken"];
+                        }                            
+                        return Task.CompletedTask;
                     }
                 };
             });
@@ -191,11 +241,13 @@ namespace Employee_Management_System_API
             builder.Services.AddScoped<IPerformanceReviewService, PerformanceReviewService>();
             builder.Services.AddScoped<ITokenService, TokenService>();
             builder.Services.AddScoped<IUserAuthenticationService, AccountService>();
+            builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             var app = builder.Build();
 
             #region Seedings
             //Seeding the sa (Super Admin)
-            //await DbSeeder.SeedSuperAdmin(app.Services);
+            await DbSeeder.SeedSuperAdmin(app.Services);
 
             //using var scope = app.Services.CreateScope();
             //var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
@@ -210,7 +262,11 @@ namespace Employee_Management_System_API
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                    c.InjectJavascript("/swagger-custom.js");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -233,6 +289,8 @@ namespace Employee_Management_System_API
                     });
                 }
             });
+
+            app.UseCors("DevCorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

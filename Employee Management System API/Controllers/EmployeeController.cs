@@ -199,6 +199,9 @@ namespace Employee_Management_System_API.Controllers
         /// <param name="id">
         /// Use the employee public id
         /// </param>
+        /// /// <param name="emp">
+        /// Parameters updating the employee’s information.
+        /// </param>        
         [HttpPut]
         [Route("{id}")]
         [Authorize(Policy = "Employee.Update")]

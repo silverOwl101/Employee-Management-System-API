@@ -18,5 +18,6 @@ namespace Employee_Management_System_API.Interfaces.Services
         public Task<IEnumerable<Claim>> GetAccountClaims(AppUser user);
         public Task<SignInResult> AccountSignIn(AppUser user, string password, bool accountLockOnFailure);
         public Task<AppUser?> GetAccountbyUserName(string username);
+        public Task<AppUser?> FindById(string userId);
     }
 }

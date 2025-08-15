@@ -52,13 +52,13 @@ namespace Employee_Management_System_API.Services
         {
             var exist = await _attendanceRepo.GetByIdAsync(id);
             var result = exist != null ? await _attendanceRepo.DeleteAsync(exist.AttendanceUID) : false;
-            return result;            
+            return result;
         }
 
         public async Task<IEnumerable<AttendanceResponse>> GetAllAttendanceAsync(QueryGetAllAttendance query)
         {
             var list = await _attendanceRepo.GetAllAsync(query);
-            return list.Select(e => e.ToAttendanceDto()).ToList();            
+            return list.Select(e => e.ToAttendanceDto()).ToList();
         }
 
         public async Task<AttendanceResponse?> GetAttendanceByIdAsync(string id)

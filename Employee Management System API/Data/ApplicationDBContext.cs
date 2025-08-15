@@ -29,6 +29,7 @@ namespace Employee_Management_System_API.Data
         public DbSet<Project> Projects => Set<Project>();
         public DbSet<ProjectAssignment> EmployeeProjectAssignments => Set<ProjectAssignment>();
         public DbSet<PerformanceReview> PerformanceReviews => Set<PerformanceReview>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -409,7 +410,18 @@ namespace Employee_Management_System_API.Data
             modelBuilder.Entity<Department>()
                 .HasIndex(d => d.DepartmentPub_ID)
                 .IsUnique();
-        }
 
+            // RefreshToken - AppUser (one-to-one)
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(rt => rt.AppUser)
+                .WithOne()
+                .HasForeignKey<RefreshToken>(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // ensure UserId is unique (one-to-one)
+            modelBuilder.Entity<RefreshToken>()
+                .HasIndex(rt => rt.UserId)
+                .IsUnique();
+        }
     }
 }

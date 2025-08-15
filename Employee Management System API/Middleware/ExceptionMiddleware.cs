@@ -1,14 +1,17 @@
-﻿using System.Net;
-using Employee_Management_System_API.DTOs.Global_Error;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
+﻿using Employee_Management_System_API.DTOs.Global_Error;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Data.SqlClient;
+using System.Net;
+using System.Reflection;
+using System.Text.Json.Serialization;
 namespace Employee_Management_System_API.Middleware
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;       
+        
         public ExceptionMiddleware(RequestDelegate next,
                                    ILogger<ExceptionMiddleware> logger,
                                    IWebHostEnvironment webHostEnvironment)
@@ -17,30 +20,30 @@ namespace Employee_Management_System_API.Middleware
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
-
+        
         public async Task InvokeAsync(HttpContext context)
-        {
+        {            
             try
             {
                 await _next(context);
             }
             catch (SqlException ex)
-            {                
+            {
                 _logger.LogError(ex, "An SQL Server error occurred.");
                 var errorMessage = "The database is currently unavailable!";
                 await HandleExceptionAsync(context,
                                            HttpStatusCode.ServiceUnavailable,
                                            errorMessage,
-                                           ex);                                
+                                           ex);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"Unhandled exception occurred");
-                var errorMessage = "An internal server error occurred.";                
+                _logger.LogError(ex, "Unhandled exception occurred");
+                var errorMessage = "An internal server error occurred.";
                 await HandleExceptionAsync(context,
                                           HttpStatusCode.InternalServerError,
                                           errorMessage,
-                                          ex);                
+                                          ex);
             }
         }
         private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message, Exception ex)
@@ -57,7 +60,7 @@ namespace Employee_Management_System_API.Middleware
                 TraceId = context.TraceIdentifier
             };
 
-            await context.Response.WriteAsJsonAsync(errorResponse);            
+            await context.Response.WriteAsJsonAsync(errorResponse);
         }
     }
 }
