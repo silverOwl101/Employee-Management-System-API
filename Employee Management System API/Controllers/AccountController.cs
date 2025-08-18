@@ -61,7 +61,7 @@ namespace Employee_Management_System_API.Controllers
             return Ok(new AccountResponse
             {
                 UserName = account.UserName,
-                Email = account.Email                
+                Email = account.Email
             });
         }
 
@@ -88,7 +88,7 @@ namespace Employee_Management_System_API.Controllers
             var employeeInformation = await _employeeService.GetEmployeeByGuidAsync(userExist.Id);
 
             if (employeeInformation is not null)
-            {                
+            {
                 var emp_logTokens = await _refreshTokenService.GetRefreshToken(userExist.Id);
                 if (emp_logTokens is not null)
                     await _refreshTokenService.DeleteRefreshToken(emp_logTokens);
@@ -97,7 +97,7 @@ namespace Employee_Management_System_API.Controllers
                                                     .CreateToken(userExist, employeeInformation.EmployeePub_ID);
 
                 //Store refresh token in Httponly cookie
-                Response.Cookies.Append("refreshToken", emp_refreshToken, new CookieOptions
+                Response.Cookies.Append("___rt", emp_refreshToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
@@ -106,7 +106,7 @@ namespace Employee_Management_System_API.Controllers
                 });
 
                 //Store token in Httponly cookie
-                Response.Cookies.Append("accessToken", emp_token, new CookieOptions
+                Response.Cookies.Append("___at", emp_token, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
@@ -116,7 +116,7 @@ namespace Employee_Management_System_API.Controllers
 
                 return Ok();
             }
-            
+
             var logTokens = await _refreshTokenService.GetRefreshToken(userExist.Id);
             if (logTokens is not null)
                 await _refreshTokenService.DeleteRefreshToken(logTokens);
@@ -124,7 +124,7 @@ namespace Employee_Management_System_API.Controllers
             var (token, refreshToken) = await _tokenService.CreateToken(userExist);
 
             //Store refresh token in Httponly cookie
-            Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+            Response.Cookies.Append("___rt", refreshToken, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
@@ -133,7 +133,7 @@ namespace Employee_Management_System_API.Controllers
             });
 
             //Store token in Httponly cookie
-            Response.Cookies.Append("accessToken", token, new CookieOptions
+            Response.Cookies.Append("___at", token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
@@ -156,7 +156,7 @@ namespace Employee_Management_System_API.Controllers
             using var sha256 = SHA256.Create();
             var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.RefreshToken));
             var hashTokenFromClient = BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
-            
+
             var refreshToken = await _refreshTokenService.GetRefreshToken(hashTokenFromClient);
 
             if (refreshToken is null || refreshToken.IsRevoked || refreshToken.Expires < DateTime.UtcNow)
@@ -167,14 +167,14 @@ namespace Employee_Management_System_API.Controllers
             var newJwt = await _tokenService.CreateTokenOnly(refreshToken.AppUser, request.EmployeeId);
 
             //delete the cookies
-            Response.Cookies.Delete("refreshToken", new CookieOptions
+            Response.Cookies.Delete("___rt", new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict
             });
 
-            Response.Cookies.Delete("accessToken", new CookieOptions
+            Response.Cookies.Delete("___at", new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
@@ -182,7 +182,7 @@ namespace Employee_Management_System_API.Controllers
             });
 
             //Store refresh token in Httponly cookie
-            Response.Cookies.Append("refreshToken", newPlaintoken, new CookieOptions
+            Response.Cookies.Append("___rt", newPlaintoken, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
@@ -191,7 +191,7 @@ namespace Employee_Management_System_API.Controllers
             });
 
             //Store token in Httponly cookie
-            Response.Cookies.Append("accessToken", newJwt, new CookieOptions
+            Response.Cookies.Append("___at", newJwt, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
@@ -219,14 +219,14 @@ namespace Employee_Management_System_API.Controllers
             {
                 await _refreshTokenService.Revoked(refreshToken, true);
 
-                Response.Cookies.Delete("refreshToken", new CookieOptions
+                Response.Cookies.Delete("___rt", new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict
                 });
 
-                Response.Cookies.Delete("accessToken", new CookieOptions
+                Response.Cookies.Delete("___at", new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,

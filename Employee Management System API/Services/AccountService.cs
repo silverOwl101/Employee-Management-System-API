@@ -47,10 +47,6 @@ namespace Employee_Management_System_API.Services
         {
             AppUser? getAppUserId;
 
-
-            if (string.IsNullOrEmpty(password))
-                throw new InvalidOperationException("Enter a password");
-
             var newEmployeeRequest = new UpsertEmployeeRequest
             {
                 EmployeePub_ID = createEmployee.EmployeePub_ID,
@@ -77,7 +73,7 @@ namespace Employee_Management_System_API.Services
                 throw new InvalidOperationException("Enter a username");
             if (string.IsNullOrEmpty(password))
                 throw new InvalidOperationException("Enter a password");
-            
+
             var isUserNameExist = await _userManager.FindByNameAsync(user.UserName);
             if (isUserNameExist is not null)
                 throw new UnauthorizedAccessException("Invalid username and password!");

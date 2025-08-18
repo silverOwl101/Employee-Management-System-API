@@ -1,17 +1,14 @@
 ﻿using Employee_Management_System_API.DTOs.Global_Error;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Data.SqlClient;
 using System.Net;
-using System.Reflection;
-using System.Text.Json.Serialization;
 namespace Employee_Management_System_API.Middleware
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
-        private readonly IWebHostEnvironment _webHostEnvironment;       
-        
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public ExceptionMiddleware(RequestDelegate next,
                                    ILogger<ExceptionMiddleware> logger,
                                    IWebHostEnvironment webHostEnvironment)
@@ -20,9 +17,9 @@ namespace Employee_Management_System_API.Middleware
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
-        
+
         public async Task InvokeAsync(HttpContext context)
-        {            
+        {
             try
             {
                 await _next(context);
@@ -51,7 +48,7 @@ namespace Employee_Management_System_API.Middleware
             context.Response.StatusCode = (int)statusCode;
             context.Response.ContentType = "application/json";
 
-            var errorResponse = new ErrorDetails
+            var errorResponse = new ErrorDetail
             {
                 Status = (int)statusCode,
                 Error = statusCode.ToString(),

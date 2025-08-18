@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel;
 using System.Net;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -30,15 +31,17 @@ namespace Employee_Management_System_API
             var allowedOrigins = builder.Configuration.GetSection("AllowedDevelopmentOrigins").Get<string[]>();
             // Add services to the container.
 
-            builder.Services.AddControllers()
-                .AddJsonOptions(opt =>
+            builder.Services.AddControllers(options =>
+            {
+
+            }).AddJsonOptions(opt =>
                 {
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
-            builder.Services.AddCors(options => 
+            builder.Services.AddCors(options =>
             {
-                options.AddPolicy("DevCorsPolicy", policy => 
+                options.AddPolicy("DevCorsPolicy", policy =>
                 {
                     policy.WithOrigins(allowedOrigins!)
                           .AllowAnyHeader()
@@ -52,16 +55,25 @@ namespace Employee_Management_System_API
             {
                 options.InvalidModelStateResponseFactory = context =>
                 {
-                    var errorsMessage = context.ModelState
-                    .Values.SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToArray();
+                    var errorsMessage = context.ModelState.Where(ms => ms.Value?.Errors.Count > 0)
+                                        .ToDictionary(
+                                            kvp =>
+                                            {
+                                                var parameterType = context.ActionDescriptor.Parameters
+                                                                    .FirstOrDefault()?.ParameterType;
 
-                    var response = new ErrorDetails
+                                                var propInfo = parameterType?.GetProperty(kvp.Key);
+                                                var displayAttr = propInfo?.GetCustomAttribute<DisplayNameAttribute>();
+                                                return displayAttr?.DisplayName ?? kvp.Key;
+                                            },
+                                            kvp => kvp.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                                        );
+
+                    var response = new ValidationErrorDetails
                     {
                         Status = 400,
                         Error = "BadRequest",
-                        Message = string.Join(" | ", errorsMessage),
+                        Messages = errorsMessage,
                         Path = context.HttpContext.Request.Path,
                         TraceId = context.HttpContext.TraceIdentifier
                     };
@@ -87,7 +99,7 @@ namespace Employee_Management_System_API
                 //    BearerFormat = "JWT",
                 //    Scheme = "Bearer"
                 //});
-                
+
                 //option.AddSecurityRequirement(new OpenApiSecurityRequirement
                 //{
                 //    {
@@ -126,7 +138,7 @@ namespace Employee_Management_System_API
                 //        Array.Empty<string>()
                 //    }
                 //});
-                
+
 
                 option.CustomSchemaIds(type => type.Name);
 
@@ -170,7 +182,7 @@ namespace Employee_Management_System_API
                     IssuerSigningKey = new SymmetricSecurityKey
                                 (System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
                 };
-                                
+
                 // For 401 and 403 JWT Global error
                 options.Events = new JwtBearerEvents
                 {
@@ -179,7 +191,7 @@ namespace Employee_Management_System_API
                         context.HandleResponse();
                         context.Response.StatusCode = 401;
                         context.Response.ContentType = "application/json";
-                        return context.Response.WriteAsJsonAsync(new ErrorDetails
+                        return context.Response.WriteAsJsonAsync(new ErrorDetail
                         {
                             Status = 401,
                             Error = "Unauthorized",
@@ -193,7 +205,7 @@ namespace Employee_Management_System_API
                     {
                         context.Response.StatusCode = 403;
                         context.Response.ContentType = "application/json";
-                        return context.Response.WriteAsJsonAsync(new ErrorDetails
+                        return context.Response.WriteAsJsonAsync(new ErrorDetail
                         {
                             Status = 403,
                             Error = "Forbidden",
@@ -202,13 +214,13 @@ namespace Employee_Management_System_API
                             TraceId = context.HttpContext.TraceIdentifier
                         });
                     },
-                    
+
                     OnMessageReceived = context =>
                     {
-                        if (context.Request.Cookies.ContainsKey("AccessToken"))
+                        if (context.Request.Cookies.ContainsKey("___at"))
                         {
-                            context.Token = context.Request.Cookies["AccessToken"];
-                        }                            
+                            context.Token = context.Request.Cookies["___at"];
+                        }
                         return Task.CompletedTask;
                     }
                 };
@@ -279,7 +291,7 @@ namespace Employee_Management_System_API
                 if (response.StatusCode == (int)HttpStatusCode.NotFound)
                 {
                     response.ContentType = "application/json";
-                    await response.WriteAsJsonAsync(new ErrorDetails
+                    await response.WriteAsJsonAsync(new ErrorDetail
                     {
                         Status = 404,
                         Error = "NotFound",
