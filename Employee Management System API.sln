@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36202.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementSystem.API", "Employee Management System API\EmployeeManagementSystem.API.csproj", "{BD566D43-8EAF-494D-B246-58A4871832E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementSystem.API", "EmployeeManagementSystem.API\EmployeeManagementSystem.API.csproj", "{BD566D43-8EAF-494D-B246-58A4871832E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementSystem.Test", "EmployeeManagementSystem.Test\EmployeeManagementSystem.Test.csproj", "{69EF18D3-4B82-45D4-B402-4EBEFC45523A}"
 EndProject
