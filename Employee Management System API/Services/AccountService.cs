@@ -15,22 +15,17 @@ namespace Employee_Management_System_API.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signinManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-        private readonly IEmployeeService _employeeService;
-        private readonly IDepartmentRepository _departmentRepo;
-        private readonly IRoleRepository _roleRepo;
+        private readonly IEmployeeService _employeeService;        
         public AccountService(UserManager<AppUser> userManager,
                               SignInManager<AppUser> signinManager,
                               RoleManager<IdentityRole<Guid>> roleManager,
-                              IEmployeeService employeeService,
-                              IDepartmentRepository departmentRepo,
-                              IRoleRepository roleRepo)
+                              IEmployeeService employeeService
+                              )
         {
             _userManager = userManager;
             _signinManager = signinManager;
             _roleManager = roleManager;
-            _employeeService = employeeService;
-            _departmentRepo = departmentRepo;
-            _roleRepo = roleRepo;
+            _employeeService = employeeService;            
         }
 
         public async Task<SignInResult> AccountSignIn(AppUser user, string password, bool accountLockOnFailure)
