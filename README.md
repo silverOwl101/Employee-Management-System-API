@@ -7,7 +7,7 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Technologies Used](#technologies-used)
+* [Technology Stack](#technologies-used)
 * [Key Features](#key-features)
 * [Getting Started](#getting-started)
 * [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
@@ -26,7 +26,7 @@ This project provides a fully featured REST API for managing employee-related op
 
 ---
 
-<h2 id="technologies-used">🔧 Technologies Used</h2>
+<h2 id="technologies-used">🔧 Technology Stack</h2>
 
 | Layer                 | Technology                                |
 | ------------------    | ----------------------------------------- |

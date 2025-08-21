@@ -95,3 +95,6 @@ CodeCoverage/
 
 ## Ignore migration folder
 **/Migrations
+
+## Ignore this readme
+READMEEdit.md

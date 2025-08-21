@@ -6,7 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 
-namespace EmployeeManagementSystem.Test.Services
+namespace EmployeeManagementSystem.Test.UnitTests.Services
 {
     public class AccountServiceTest
     {
