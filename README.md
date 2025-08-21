@@ -150,7 +150,7 @@ Follow the [EF Core migration guide](https://learn.microsoft.com/en-us/ef/core/m
 
 To seed the default `sa` (Super Admin) account:
 
-In `Program.cs`, **uncomment** line 198:
+In `Program.cs`, **uncomment** line 458. To quickly go to a specific line number, press `Ctrl + G`, then enter `458`.
 
 ```csharp
 await DbSeeder.SeedSuperAdmin(app.Services);
