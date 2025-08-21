@@ -13,8 +13,6 @@ namespace EmployeeManagementSystem.Test.IntegrationTests
     public class AccountControllerIntegrationTesting : IClassFixture<VirtualWebApplicationDB<Program>>
     {
         private readonly HttpClient _client;
-
-        
         
         public AccountControllerIntegrationTesting(VirtualWebApplicationDB<Program> factory)
         {
@@ -127,16 +125,16 @@ namespace EmployeeManagementSystem.Test.IntegrationTests
             response.EnsureSuccessStatusCode();
 
             var _accessToken = response.Headers
-                                                      .GetValues("Set-Cookie")
-                                                      .FirstOrDefault(h => h.StartsWith("___at="))?
-                                                      .Split(';')[0]
-                                                      .Split('=')[1];
+                                       .GetValues("Set-Cookie")
+                                       .FirstOrDefault(h => h.StartsWith("___at="))?
+                                       .Split(';')[0]
+                                       .Split('=')[1];
 
             var _refreshToken = response.Headers
-                                                       .GetValues("Set-Cookie")
-                                                       .FirstOrDefault(h => h.StartsWith("___rt="))?
-                                                       .Split(';')[0]
-                                                       .Split('=')[1];
+                                        .GetValues("Set-Cookie")
+                                        .FirstOrDefault(h => h.StartsWith("___rt="))?
+                                        .Split(';')[0]
+                                        .Split('=')[1];
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             _accessToken.Should().NotBeNull();

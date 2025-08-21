@@ -10,11 +10,11 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 * [Technology Stack](#technologies-used)
 * [Key Features](#key-features)
 * [Getting Started](#getting-started)
-* [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
-* [Authorization (RBAC)](#authorization-rbac) **🚧 Note:** Under construction and will be updated soon.
-* [Authentication (JWT)](#authentication-jwt) **🚧 Note:** Under construction and will be updated soon.
-* [API Endpoints](#api-endpoints) **🚧 Note:** Under construction and will be updated soon.
-* [.http Files for Testing](#http-files-for-testing) **🚧 Note:** Under construction and will be updated soon.
+* [Project Structure](#project-structure) 
+* Authorization (RBAC)
+* Authentication (JWT)
+* API Endpoints
+* .http Files for Testing
 * [Skills Demonstrated](#skills-demonstrated)
 * [License](#license)
 
@@ -182,22 +182,18 @@ If the Swagger UI appears after the project launches, your API setup is complete
 ├── Data
 └── Middleware
 ```
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 ---
 
 <h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
 
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 
 ---
 
 <h2 id="authentication-jwt">🔐 Authentication (JWT)</h2>
 
-* Token is issued after a successful login
-* Tokens include roles and policy-based claims
-* Secure endpoints with `[Authorize(Policy = "...")]`
-
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 ---
 
 <h2 id="api-endpoints">📫 API Endpoints</h2>
@@ -208,7 +204,7 @@ All endpoints follow REST conventions:
 * `POST /api/employees`
 * `PUT /api/employees/{id}`
 
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 ---
 
 <h2 id="http-files-for-testing">📄 .http Files for Testing</h2>
@@ -226,7 +222,7 @@ Content-Type: application/json
   "password": "admin_password"
 }
 ```
-> **🚧 Note:** This section is currently under construction and will be updated soon.
+> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 ---
 
 <h2 id="skills-demonstrated">📚 Skills Demonstrated </h2>
