@@ -7,9 +7,10 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 ## Table of Contents
 
 * [Introduction](#introduction)
-* [Technology Stack](#technologies-used)
-* [Features](#key-features)
+* [Technologies Used](#technologies-used)
+* [Key Features](#key-features)
 * [Getting Started](#getting-started)
+* [Project Structure](#project-structure) **🚧 Note:** Under construction and will be updated soon.
 * [Authorization (RBAC)](#authorization-rbac) **🚧 Note:** Under construction and will be updated soon.
 * [Authentication (JWT)](#authentication-jwt) **🚧 Note:** Under construction and will be updated soon.
 * [API Endpoints](#api-endpoints) **🚧 Note:** Under construction and will be updated soon.
@@ -25,7 +26,7 @@ This project provides a fully featured REST API for managing employee-related op
 
 ---
 
-<h2 id="technologies-used">🔧 Technology Stack</h2>
+<h2 id="technologies-used">🔧 Technologies Used</h2>
 
 | Layer                 | Technology                                |
 | ------------------    | ----------------------------------------- |
@@ -41,7 +42,7 @@ This project provides a fully featured REST API for managing employee-related op
 
 ---
 
-<h2 id="key-features">🔑 Features</h2>
+<h2 id="key-features">🔑 Key Features</h2>
 
 | Feature               | Description                                             |
 | --------------------- | ------------------------------------------------------- |
@@ -167,6 +168,21 @@ If the Swagger UI appears after the project launches, your API setup is complete
 
 > **🎉 Congratulations!** You can now use the API for your project.
 
+---
+
+<h2 id="project-structure">📂 Project Structure</h2>
+
+```bash
+.
+├── Controllers
+├── Services
+├── Repositories
+├── Models
+├── DTOs
+├── Data
+└── Middleware
+```
+> **🚧 Note:** This section is currently under construction and will be updated soon.
 ---
 
 <h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
