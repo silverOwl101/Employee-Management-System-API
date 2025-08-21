@@ -173,16 +173,10 @@ If the Swagger UI appears after the project launches, your API setup is complete
 <h2 id="project-structure">📂 Project Structure</h2>
 
 ```bash
-.
-├── Controllers
-├── Services
-├── Repositories
-├── Models
-├── DTOs
-├── Data
-└── Middleware
+Employee Management System API/
+├── EmployeeManagementSystem.API/
+└── EmployeeManagementSystem.Test/
 ```
-> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
 ---
 
 <h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
