@@ -150,7 +150,7 @@ Follow the [EF Core migration guide](https://learn.microsoft.com/en-us/ef/core/m
 
 To seed the default `sa` (Super Admin) account:
 
-In `Program.cs`, **uncomment** line 458. To quickly go to a specific line number, press `Ctrl + G`, then enter `458`.
+In `Program.cs`, **uncomment** line 198:
 
 ```csharp
 await DbSeeder.SeedSuperAdmin(app.Services);
@@ -192,13 +192,113 @@ Employee Management System API/
 
 <h2 id="api-endpoints">📫 API Endpoints</h2>
 
-All endpoints follow REST conventions: 
+### These are the following API endpoints:
 
-* `GET /api/employees`
-* `POST /api/employees`
-* `PUT /api/employees/{id}`
+### Account Controller
+| Endpoint                          | Description          |
+| --------------------------------- | -------------------- |
+| `POST /api/Account/Register`      | Register new account |
+| `POST /api/Account/Login`         | Log-in account       |
+| `POST /api/Account/Refresh-Token` | Token refresh        |
+| `POST /api/Account/Logout`        | Log-out account      |
 
-> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
+### Attendance Controller
+| Endpoint                      | Description                                      |
+| ----------------------------- | ------------------------------------------------ |
+| `GET /api/Attendance`         | Get all attendance records                       |
+| `POST /api/Attendance`        | Create a new attendance record                   |
+| `GET /api/Attendance/{id}`    | Get attendance record using attendance public id |
+| `PUT /api/Attendance/{id}`    | Update an attendance record                      |
+| `DELETE /api/Attendance/{id}` | Delete an attendance record                      |
+
+### Department Controller
+| Endpoint                      | Description                                      |
+| ----------------------------- | ------------------------------------------------ |
+| `GET /api/Department`         | Get all department records                       |
+| `POST /api/Department`        | Create new department record                     |
+| `GET /api/Department/{id}`    | Get department record using department public id |
+| `PUT /api/Department/{id}`    | Update a department record                       |
+| `DELETE /api/Department/{id}` | Delete a department record                       |
+
+### Employee Controller
+| Endpoint                       | Description                                              |
+| ------------------------------ | -------------------------------------------------------- |
+| `GET /api/Employee`            | Get all employee records                                 |
+| `POST /api/Employee`           | Create new employee record                               |
+| `GET /api/Employee/{id}`       | Get the employee record details using employee public id |
+| `PUT /api/Employee/{id}`       | Update an employee record                                |
+| `DELETE /api/Employee/{id}`    | Delete an employee record                                |
+| `GET /api/Employee/attendance` | Get the attendance of the employee                       |
+| `GET /api/Employee/leave`      | Get the leave request of the employee                    |
+| `GET /api/Employee/payroll`    | Get the payroll of the employee                          |
+| `GET /api/Employee/appraisal`  | Get the performance review of the employee               |
+| `GET /api/Employee/contact`    | Get the contact number of the employee                   |
+| `GET /api/Employee/task`       | Get the project assignment of the employee               |
+
+### LeaveRequest Controller
+| Endpoint                   | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| `GET /api/Timeoff`         | Get all leave request records                          |
+| `POST /api/Timeoff`        | Create new leave request record                        |
+| `GET /api/Timeoff/{id}`    | Get leave request record using leave request public id |
+| `PUT /api/Timeoff/{id}`    | Update a leave request record                          |
+| `DELETE /api/Timeoff/{id}` | Delete a leave request record                          |
+
+### Payroll Controller
+| Endpoint                   | Description                                 |
+| -------------------------- | ------------------------------------------- |
+| `GET /api/Payroll`         | Get all payroll records                     |
+| `POST /api/Payroll`        | Create new payroll record                   |
+| `GET /api/Payroll/{id}`    | Get payroll records using payroll public id |
+| `PUT /api/Payroll/{id}`    | Update a payroll record                     |
+| `DELETE /api/Payroll/{id}` | Delete a payroll record                     |
+
+### PerformanceReview Controller
+| Endpoint                  | Description                                                      |
+| ------------------------- | ---------------------------------------------------------------- |
+| `GET /api/Review`         | Get all performance review records                               |
+| `POST /api/Review`        | Create new performance review record                             |
+| `GET /api/Review/{id}`    | Get performance review record using performance review public id |
+| `PUT /api/Review/{id}`    | Update a performance review record                               |
+| `DELETE /api/Review/{id}` | Delete a performance review record                               |
+
+### PhoneNumber Controller
+| Endpoint                        | Description                                          |
+| ------------------------------- | ---------------------------------------------------- |
+| `GET /api/Phone-number`         | Get all phone number records                         |
+| `POST /api/Phone-number`        | Create new phone number record                       |
+| `GET /api/Phone-number/{id}`    | Get phone number record using phone number public id |
+| `PUT /api/Phone-number/{id}`    | Update a phone number record                         |
+| `DELETE /api/Phone-number/{id}` | Delete a phone number record                         |
+
+### Project Controller
+| Endpoint                                   | Description                                       |
+| ------------------------------------------ | ------------------------------------------------- |
+| `GET /api/Project`                         | Get all project records                           |
+| `POST /api/Project`                        | Create new project record                         |
+| `GET /api/Project/{id}`                    | Get project record using project public id        |
+| `PUT /api/Project/{id}`                    | Update a project record                           |
+| `DELETE /api/Project/{id}`                 | Delete a project record                           |
+| `GET /api/Project/{id}/employees-assigned` | Get the list of employees assigned in the project |
+
+### ProjectAssignment Controller
+| Endpoint                       | Description                                                      |
+| ------------------------------ | ---------------------------------------------------------------- |
+| `GET /api/Assignments`         | Get all project assignment records                               |
+| `POST /api/Assignments`        | Create new project assignment record                             |
+| `GET /api/Assignments/{id}`    | Get project assignment record using project assignment public id |
+| `PUT /api/Assignments/{id}`    | Update a project assignment record                               |
+| `DELETE /api/Assignments/{id}` | Delete a project assignment record                               |
+
+### Role Controller
+| Endpoint                | Description                                       |
+| ----------------------- | ------------------------------------------------- |
+| `GET /api/Role`         | Get all employee job role records                 |
+| `POST /api/Role`        | Create new employee job role record               |
+| `GET /api/Role/{id}`    | Get employee job role record using role public id |
+| `PUT /api/Role/{id}`    | Update role record                                |
+| `DELETE /api/Role/{id}` | Delete a role record                              |
+
 ---
 
 <h2 id="http-files-for-testing">📄 .http Files for Testing</h2>
