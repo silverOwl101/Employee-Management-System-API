@@ -1,4 +1,5 @@
-@baseUrl = {{http}}
+@baseUrl = {{https}}
+@employeeID = 2025-9608
 
 ### Login Request
 POST {{baseUrl}}/api/account/login
@@ -8,7 +9,6 @@ Content-Type: application/json
   "userName": "sa",
   "password": "company_Password101"
 }
-
 
 ### Register Request (requires bearer token)
 POST {{baseUrl}}/api/account/register
@@ -29,4 +29,22 @@ Content-Type: application/json
   "userName": "testingUser",
   "orgRole": "HRStaff",
   "password": "user_Password101"
+}
+
+### Token Refresh
+POST {{baseUrl}}/api/Account/Refresh-Token
+Content-Type: application/json
+
+{
+   "refreshToken": "{{refreshToken}}",
+   "employeeId": "{{employeeID}}"
+}
+
+### Logout Request
+POST {{baseUrl}}/api/Account/Logout
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "refreshToken": "{{refreshToken}}"
 }

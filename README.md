@@ -303,20 +303,545 @@ Employee Management System API/
 
 <h2 id="http-files-for-testing">📄 .http Files for Testing</h2>
 
-* Located in the `HttpRequests/` folder
-* Easy to test endpoints using REST Client in VS Code or VS 2022
-* Example:
+HTTP files are located in the `Http/` folder inside the `EmployeeManagementSystem.API` project.
+
+To use the HTTP files, you need to set up the [environment file](https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-9.0#environment-files).
+
+First, run the `Login Request` inside the `Account.http` file to get the refresh token and the JWT token.
 
 ```http
-POST https://localhost:7235/api/account/login
+### Login Request
+POST {{baseUrl}}/api/account/login
 Content-Type: application/json
 
 {
-  "userName": "admin",
-  "password": "admin_password"
+  "userName": "[USER NAME HERE]",
+  "password": "[PASSWORD HERE]"
 }
 ```
-> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
+
+**Note:** When you click the `Headers` in the `HTTP Response Window`, the refresh token is named `___rt` while the JWT is named `___at`. To decode the value of `___rt`, use `[System.Net.WebUtility]::UrlDecode("[___rt HERE]")` in PowerShell or your preferred terminal.
+
+Open the `httpenv.json` file and replace the variables with your actual values.
+
+```json
+{
+  "development": {
+    "https": "[HTTPS HERE]",
+    "http": "[HTTP HERE]",
+    "refreshToken": [___rt HERE],
+    "token": [___at HERE]
+  }  
+}
+```
+
+You can now use the following HTTP files:
+
+#### Account.http
+
+```http
+@baseUrl = {{https}}
+@employeeID = [ID HERE]
+
+### Login Request
+POST {{baseUrl}}/api/account/login
+Content-Type: application/json
+
+{
+  "userName": "[USER NAME HERE]",
+  "password": "[PASSWORD HERE]"
+}
+
+### Register Request (requires bearer token)
+POST {{baseUrl}}/api/account/register
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+  "firstName": "testing",
+  "middleName": "test",
+  "lastName": "testingting",
+  "email": "test@email.com",
+  "dateOfBirth": "2025-07-22",
+  "hireDate": "2025-07-22",
+  "address": "test",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "userName": "testingUser",
+  "orgRole": "HRStaff",
+  "password": "user_Password101"
+}
+
+### Token Refresh
+POST {{baseUrl}}/api/Account/Refresh-Token
+Content-Type: application/json
+
+{
+   "refreshToken": "{{refreshToken}}",
+   "employeeId": "{{employeeID}}"
+}
+
+### Logout Request
+POST {{baseUrl}}/api/Account/Logout
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+   "refreshToken": "{{refreshToken}}"
+}
+```
+
+#### Attendance.http
+
+```http
+@baseUrl = {{https}}
+@attendanceId = [ATTENDANCE ID HERE]
+
+### Get All Attendance
+GET {{baseUrl}}/api/attendance?PageNumber=1&PageSize=3
+# Authorization: Bearer {{token}}
+
+### Get Attendance by ID
+GET {{baseUrl}}/api/attendance/{{attendanceId}}
+Authorization: Bearer {{token}}
+
+### Create Attendance
+POST {{baseUrl}}/api/attendance
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "attendancePub_ID": "string",
+  "date": "2025-07-23",
+  "checkInTime": "string",
+  "checkOutTime": "string",
+  "status": "Present",
+  "employeePub_ID": "string"
+}
+
+### Update Attendance
+PUT {{baseUrl}}/api/attendance/{{attendanceId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "attendancePub_ID": "{{attendanceId}}",
+  "date": "2025-07-23",
+  "checkInTime": ""09:46:30",
+  "checkOutTime": "16:33:20",
+  "status": "Present",
+  "employeePub_ID": "string"
+}
+
+### Delete Attendance
+DELETE {{baseUrl}}/api/attendance/{{attendanceId}}
+Authorization: Bearer {{token}}
+```
+
+#### Department.http
+
+```http
+@baseUrl = {{http}}
+@departmentId = [DEPARTMENT ID HERE]
+
+### Get all departments (with optional query parameters)
+GET {{baseUrl}}/api/department?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get department by ID
+GET {{baseUrl}}/api/department/{{departmentId}}
+Authorization: Bearer {{token}}
+
+### Create a new department
+POST {{baseUrl}}/api/department
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "departmentPub_ID": "[New ID]",
+  "departmentName": "Hr Department",
+  "description": "test"
+}
+
+### Update an existing department
+PUT {{baseUrl}}/api/department/{{departmentId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "departmentPub_ID": "{{departmentId}}",
+  "departmentName": "Hr Department",
+  "description": "test"
+}
+
+### Delete a department
+DELETE {{baseUrl}}/api/department/{{departmentId}}
+Authorization: Bearer {{token}}
+```
+
+#### Employee.http
+
+```http
+@baseUrl = {{http}}
+@employeeId = [EMPLOYEE ID HERE]
+
+### Get All Employees
+GET {{baseUrl}}/api/employee?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Employee By ID
+GET {{baseUrl}}/api/employee/{{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Attendance
+GET {{baseUrl}}/api/employee/attendance?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Leave Request
+GET {{baseUrl}}/api/employee/leave?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Payroll
+GET {{baseUrl}}/api/employee/payroll?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Performance Review
+GET {{baseUrl}}/api/employee/appraisal?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Contact Info
+GET {{baseUrl}}/api/employee/contact?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Get Employee Project Assignment
+GET {{baseUrl}}/api/employee/task?EmployeePub_ID={{employeeId}}
+Authorization: Bearer {{token}}
+
+### Create New Employee: in order to create an Employee you must create and account
+POST {{baseUrl}}/api/employee
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "employeePub_ID": "2025-1155",
+  "firstName": "John",
+  "middleName": "D",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "dateOfBirth": "1995-01-01",
+  "hireDate": "2023-05-01",
+  "address": "123 Sample Street",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "appUserId": "e86b2ad3-4e7c-497b-a760-1b6dcfe5938f"
+}
+
+### Update Employee: in order to update an Employee you must create an account
+PUT {{baseUrl}}/api/employee/{{employeeId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "employeePub_ID": "{{employeeId}}",
+  "firstName": "John",
+  "middleName": "Updated",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "dateOfBirth": "1995-01-01",
+  "hireDate": "2023-05-01",
+  "address": "456 New Address",
+  "status": "Active",
+  "departmentPub_ID": "2025-1122",
+  "rolePub_ID": "2025-1222",
+  "appUserId": "e86b2ad3-4e7c-497b-a760-1b6dcfe5938f"
+}
+
+### Delete Employee
+DELETE {{baseUrl}}/api/employee/{{employeeId}}
+Authorization: Bearer {{token}}
+```
+
+#### LeaveRequest.http
+
+```http
+
+@baseUrl = {{http}}
+@leaveRequestId = [LEAVE REQUEST ID HERE]
+
+### Get All Leave request
+GET {{baseUrl}}/api/timeoff?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Leave request by ID
+GET {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Authorization: Bearer {{token}}
+
+### Create Leave request: To create a leave request you must have an employee id
+POST {{baseUrl}}/api/timeoff
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "leavePub_ID": "string",
+  "startDate": "2025-07-25",
+  "endDate": "2025-07-25",
+  "leaveType": "Sick",
+  "status": "Pending",
+  "reason": "string",
+  "employeePub_ID": "string"
+}
+
+
+### Update Leave request
+PUT {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "leavePub_ID": "{{leaveRequestId}}",
+  "startDate": "2025-07-25",
+  "endDate": "2025-07-25",
+  "leaveType": "Sick",
+  "status": "Pending",
+  "reason": "string",
+  "employeePub_ID": "string"
+}
+
+### Delete Leave request
+DELETE {{baseUrl}}/api/timeoff/{{leaveRequestId}}
+Authorization: Bearer {{token}}      
+```
+
+#### Payroll.http
+
+```http
+@baseUrl = {{http}}
+@payrollId = [PAYROLL ID HERE]
+
+### Get All Payroll
+GET {{baseUrl}}/api/payroll?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Payroll by ID
+GET {{baseUrl}}/api/payroll/{{payrollId}}
+Authorization: Bearer {{token}}
+
+### Create Payroll: Need Employee ID
+POST {{baseUrl}}/api/payroll
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "payrollPub_ID": "string",
+  "payDate": "2025-07-25",
+  "basicSalary": 0,
+  "allowances": 0,
+  "deductions": 0,
+  "netSalary": 0,
+  "employeePub_ID": "string"
+}
+
+### Update Payroll
+PUT {{baseUrl}}/api/payroll/{{payrollId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "payrollPub_ID": "string",
+  "payDate": "2025-07-25",
+  "basicSalary": 0,
+  "allowances": 0,
+  "deductions": 0,
+  "netSalary": 0,
+  "employeePub_ID": "string"
+}
+
+### Delete Payroll
+DELETE {{baseUrl}}/api/payroll/{{payrollId}}
+Authorization: Bearer {{token}}
+```
+
+#### PhoneNumber.http
+
+```http
+
+@baseUrl = {{http}}
+@phoneNumberId = [PHONE NUMBER ID HERE]
+
+### Get All Phone numbers
+GET {{baseUrl}}/api/phone-number?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Phone numbers by ID
+GET {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Authorization: Bearer {{token}}
+
+### Create Phone number record: To create a phone number record you must have an employeePub_ID
+POST {{baseUrl}}/api/phone-number
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "phoneNumberPub_ID": "string",
+  "phoneNumberValue": "string",
+  "employeePub_ID": "string"
+}
+
+### Update Phone number
+PUT {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "phoneNumberPub_ID": "{{phoneNumberId}}",
+  "phoneNumberValue": "string",
+  "employeePub_ID": "string"
+}
+
+### Delete Phone number
+DELETE {{baseUrl}}/api/phone-number/{{phoneNumberId}}
+Authorization: Bearer {{token}}
+```
+
+#### Project.http
+
+```http
+
+@baseUrl = {{http}}
+@projectId = [PROJECT ID HERE]
+
+### Get All Project
+GET {{baseUrl}}/api/project?PageNumber=1&PageSize=3
+Authorization: Bearer {{token}}
+
+### Get Project by ID
+GET {{baseUrl}}/api/project/{{projectId}}
+Authorization: Bearer {{token}}
+
+### Create Project
+POST {{baseUrl}}/api/project
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "projectPub_ID": "2026-5566",
+  "projectName": "sample project",
+  "description": "aaaa",
+  "startDate": "2025-07-26",
+  "endDate": "2025-07-30",
+  "status": "Ongoing"
+}
+
+### Update Project
+PUT {{baseUrl}}/api/project/{{projectId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "projectPub_ID": "{{projectId}}",
+  "projectName": "sample project",
+  "description": "aaaa",
+  "startDate": "2025-07-26",
+  "endDate": "2025-08-26",
+  "status": "Ongoing"
+}
+
+### Delete Project
+DELETE {{baseUrl}}/api/project/{{projectId}}
+Authorization: Bearer {{token}}
+```
+
+#### ProjectAssignment.http
+
+```http
+
+@baseUrl = {{http}}
+@projectAssignment = [PROJECT ASSIGNMENT ID HERE]
+
+### Get All Project assignment
+GET {{baseUrl}}/api/assignments?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Project assignment by ID
+GET {{baseUrl}}/api/assignments/{{projectAssignment}}
+Authorization: Bearer {{token}}
+
+### Create Project assignment
+POST {{baseUrl}}/api/assignments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "assignmentPub_ID": "string",
+  "roleInProject": "string",
+  "assignedDate": "2025-07-26",
+  "employeePub_ID": "string",
+  "projectPub_ID": "string"
+}
+
+### Update Project assignment
+PUT {{baseUrl}}/api/assignments/{{projectAssignment}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "assignmentPub_ID": "{{projectAssignment}}",
+  "roleInProject": "string",
+  "assignedDate": "2025-07-26",
+  "employeePub_ID": "string",
+  "projectPub_ID": "string"
+}
+
+### Delete Project assignment
+DELETE {{baseUrl}}/api/assignments/{{projectAssignment}}
+Authorization: Bearer {{token}}
+```
+
+#### Role.http
+
+```http
+
+@baseUrl = {{http}}
+@roleId = [ROLE ID HERE]
+
+### Get All Roles
+GET {{baseUrl}}/api/role?PageNumber=1&PageSize=10
+Authorization: Bearer {{token}}
+
+### Get Role by ID
+GET {{baseUrl}}/api/role/{{roleId}}
+Authorization: Bearer {{token}}
+
+### Create Role
+POST {{baseUrl}}/api/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rolePub_ID": "2026-5565",
+  "roleName": "Qa",
+  "description": "check check",
+  "salary": 100000
+}
+
+### Update Role
+PUT {{baseUrl}}/api/role/{{roleId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "rolePub_ID": "{{roleId}}",
+  "roleName": "Programmers",
+  "description": "test test",
+  "salary": 12000
+}
+
+### Delete Role
+DELETE {{baseUrl}}/api/role/{{roleId}}
+Authorization: Bearer {{token}}
+```
 ---
 
 <h2 id="skills-demonstrated">📚 Skills Demonstrated </h2>

@@ -1,11 +1,11 @@
-@baseUrl = {{http}}
+@baseUrl = {{https}}
 @attendanceId = 2025-9608
 
 
 
 ### Get All Attendance
 GET {{baseUrl}}/api/attendance?PageNumber=1&PageSize=3
-Authorization: Bearer {{token}}
+# Authorization: Bearer {{token}}
 
 ### Get Attendance by ID
 GET {{baseUrl}}/api/attendance/{{attendanceId}}
