@@ -13,7 +13,7 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 * [Project Structure](#project-structure) 
 * Authorization (RBAC)
 * Authentication (JWT)
-* API Endpoints
+* [API Endpoints](#api-endpoints)
 * .http Files for Testing
 * [Skills Demonstrated](#skills-demonstrated)
 * [License](#license)
