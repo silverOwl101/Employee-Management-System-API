@@ -37,6 +37,7 @@ This project provides a fully featured REST API for managing employee-related op
 | **Authorization**     | Role-Based Access Control (RBAC)          |
 | **Database**          | MSSQL (via Docker container)                              |
 | **Development Env**   | [Docker](https://www.docker.com/)(for containerized MSSQL Server)|
+| **IDE**               | [Microsoft Visual Studio](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022&source=VSLandingPage&cid=2030&passive=false)|
 | **Documentation**     | [Swagger](https://swagger.io/) / [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore?tab=readme-ov-file)|
 | **Test Data Seeding** | [Bogus for .NET](https://github.com/bchavez/Bogus) (C# fake data generator)|
 
@@ -549,11 +550,28 @@ Create two configuration files in your project root:
 
 HTTP files are located in the `Http/` folder inside the `EmployeeManagementSystem.API` project.
 
-To use the HTTP files, you need to set up the [environment file](https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-9.0#environment-files).
+To use the HTTP files, you need to configure the [environment file](https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-9.0#environment-files).
 
-First, run the `Login Request` inside the `Account.http` file to get the refresh token and the JWT token.
+Next, open your environment file, copy the JSON snippet below, and replace the placeholder values with your actual configuration:
+
+```json
+{
+  "development": {
+    "https": "https://localhost:7235",
+    "http": "http://localhost:5150",
+    "refreshToken": [___rt HERE],
+    "token": [___at HERE]
+  }  
+}
+````
+
+**Note:** The default localhost values for this project are `https://localhost:7235` and `http://localhost:5150`. You can change these if needed.
+
+After configuring the environment file, run the `Login Request` inside the `Account.http` file to obtain the refresh token and JWT access token:
 
 ```
+@baseUrl = {{https}}
+
 ### Login Request
 POST {{baseUrl}}/api/account/login
 Content-Type: application/json
@@ -564,22 +582,23 @@ Content-Type: application/json
 }
 ```
 
-**Note:** When you click the `Headers` in the `HTTP Response Window`, the refresh token is named `___rt` while the JWT is named `___at`. To decode the value of `___rt`, use `[System.Net.WebUtility]::UrlDecode("[___rt HERE]")` in PowerShell or your preferred terminal.
+**Note:** In the `HTTP Response Window`, under the `Headers` tab, the refresh token is labeled `___rt` and the JWT access token is labeled `___at`.
+To decode the value of `___rt`, use `[System.Net.WebUtility]::UrlDecode("[___rt HERE]")` in PowerShell or your preferred terminal.
 
-Open the `httpenv.json` file and replace the variables with your actual values.
+After retrieving the tokens, update your environment file by replacing the placeholders with the actual `___rt` (refreshToken) and `___at` (JWT):
 
-```
+```json
 {
   "development": {
-    "https": "[HTTPS HERE]",
-    "http": "[HTTP HERE]",
+    "https": "https://localhost:7235",
+    "http": "http://localhost:5150",
     "refreshToken": [___rt HERE],
     "token": [___at HERE]
   }  
 }
 ```
 
-You can now use the following HTTP files:
+You can now begin using the provided HTTP files.
 
 #### Account.http
 
