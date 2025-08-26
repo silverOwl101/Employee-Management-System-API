@@ -36,8 +36,7 @@ This project provides a fully featured REST API for managing employee-related op
 | **Authentication**    | [JWT](https://www.jwt.io/) (JSON Web Tokens)|
 | **Authorization**     | Role-Based Access Control (RBAC)          |
 | **Database**          | MSSQL (via Docker container)                              |
-| **Development Env**   | [Docker](https://www.docker.com/) (used for MSSQL Server container)                              |
-| **IDE**               | [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)                        |
+| **Development Env**   | [Docker](https://www.docker.com/)(for containerized MSSQL Server)|
 | **Documentation**     | [Swagger](https://swagger.io/) / [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore?tab=readme-ov-file)|
 | **Test Data Seeding** | [Bogus for .NET](https://github.com/bchavez/Bogus) (C# fake data generator)|
 
@@ -45,14 +44,15 @@ This project provides a fully featured REST API for managing employee-related op
 
 <h2 id="key-features">🔑 Key Features</h2>
 
-| Feature               | Description                                             |
-| --------------------- | ------------------------------------------------------- |
-| 👤 User Management    | Register, update, delete users with role-based access   |
-| 🕒 Attendance System  | Clock-in/clock-out, employee attendance tracking        |
-| 💼 Payroll            | Salary computation, deductions, bonuses                 |
-| 🔒 Authentication     | JWT-based login with claims and policy validation       |
-| 🛆 Leave Management   | Track and manage leave requests                         |
-| 📱 Project Assignment | Assign and monitor project-based employee participation |
+| Feature               | Description                                                                 |
+| --------------------- | --------------------------------------------------------------------------- |
+| User Management       | Register, update, and delete users with role-based access control           |
+| Attendance System     | Clock-in/clock-out functionality with employee attendance tracking          |
+| Payroll               | Automated salary computation with support for deductions and bonuses        |
+| Authentication        | Secure JWT-based authentication stored in HttpOnly cookies with claims and policy validation |
+| Leave Management      | Submit, track, and manage employee leave requests                           |
+| Project Assignment    | Assign employees to projects and monitor participation and progress         |
+
 
 ---
 
@@ -181,14 +181,6 @@ Employee Management System API/
 ---
 
 <h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
-
-Perfect 🚀 — here’s a **Markdown block** you can paste directly into your README file.
-
-It shows the RBAC policies in a **CRUD-style table** so it’s easy for recruiters/devs to skim:
-
----
-
-## 🔐 Authorization (RBAC)
 
 This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**.
 Each endpoint requires a specific claim with value `"true"` in the user’s token.
