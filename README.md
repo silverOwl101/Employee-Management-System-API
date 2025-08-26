@@ -587,7 +587,7 @@ To decode the value of `___rt`, use `[System.Net.WebUtility]::UrlDecode("[___rt 
 
 After retrieving the tokens, update your environment file by replacing the placeholders with the actual `___rt` (refreshToken) and `___at` (JWT):
 
-```json
+```
 {
   "development": {
     "https": "https://localhost:7235",
