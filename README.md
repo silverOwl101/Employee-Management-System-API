@@ -11,8 +11,9 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 * [Key Features](#key-features)
 * [Getting Started](#getting-started)
 * [Project Structure](#project-structure) 
-* Authorization (RBAC)
-* Authentication (JWT)
+* [Authorization (RBAC)](#authorization-rbac)
+* [Authentication (JWT)](#authentication-jwt)
+* [CORS Configuration](#cors-configuration)
 * [API Endpoints](#api-endpoints)
 * [.http Files for Testing](#http-files-for-testing)
 * [Skills Demonstrated](#skills-demonstrated)
@@ -181,13 +182,214 @@ Employee Management System API/
 
 <h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
 
-> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
+Perfect 🚀 — here’s a **Markdown block** you can paste directly into your README file.
+
+It shows the RBAC policies in a **CRUD-style table** so it’s easy for recruiters/devs to skim:
+
+---
+
+## 🔐 Authorization (RBAC)
+
+This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**.
+Each endpoint requires a specific claim with value `"true"` in the user’s token.
+
+### Policy Format
+
+```
+<Resource>.<Action>
+```
+
+Example:
+
+* `Employee.View` → Allows viewing all employees
+* `Employee.Create` → Allows creating a new employee
+
+### Example Usage
+
+```csharp
+[Authorize(Policy = "Employee.Create")]
+[HttpPost]
+public async Task<IActionResult> CreateEmployee(EmployeeDto dto)
+{
+    ...
+}
+```
+
+---
+
+### 📋 Available Policies
+
+| **Resource**          | **View** | **ById** | **Create** | **Update** | **Delete** | **Other Actions**                                                                     |
+| --------------------- | -------- | -------- | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------- |
+| **Account**           | –        | –        | ✅ Register | –          | –          | –                                                                                     |
+| **Attendance**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Department**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Employee**          | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | Attendance, LeaveRequest, Payroll, PerformanceReview, PhoneNumbers, ProjectAssignment |
+| **LeaveRequest**      | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Payroll**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **PerformanceReview** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **PhoneNumber**       | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **ProjectAssignment** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Project**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | GetEmployees                                                                          |
+| **Role**              | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
 
 ---
 
 <h2 id="authentication-jwt">🔐 Authentication (JWT)</h2>
 
-> **🚧 Note:** This section is currently under construction and will be updated soon. The API is fully functional and tested via Swagger with documentation available at `/swagger`.
+This API uses **JSON Web Tokens (JWT)** with **HttpOnly cookies** for authentication and session management.  
+
+### How It Works
+1. **Login (`/api/Account/Login`)**  
+   - User provides `username` and `password`.  
+   - If valid, the API generates:
+     - **Access Token** (`___at`) → short-lived (15 minutes).  
+     - **Refresh Token** (`___rt`) → longer-lived (7 days).  
+   - Both tokens are stored securely in **HttpOnly cookies**.  
+
+2. **Accessing Protected Endpoints**  
+   - Each request automatically includes the `___at` cookie.  
+   - The API validates the JWT using `JwtBearer` authentication.  
+
+3. **Token Refresh (`/api/Account/Refresh-Token`)**  
+   - When the access token expires, the client can call this endpoint.  
+   - The server validates the refresh token and issues a new access + refresh token pair.  
+
+4. **Logout (`/api/Account/Logout`)**  
+   - Refresh token is revoked.  
+   - Cookies (`___at` and `___rt`) are cleared.  
+
+
+### JWT Configuration
+
+Configured in `Program.cs`:
+
+```csharp
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
+    };
+});
+```
+
+### Example Requests
+
+**Login**
+```http
+POST /api/Account/Login
+Content-Type: application/json
+
+{
+  "userName": "johndoe",
+  "password": "P@ssw0rd!"
+}
+```
+Response includes:
+* `___at` cookie (access token, 15 minutes).
+* `___rt` cookie (refresh token, 7 days).
+
+**Refresh Token**
+```http
+POST /api/Account/Refresh-Token
+Content-Type: application/json
+
+{
+  "refreshToken": "<old-refresh-token>",
+  "employeeId": "[EMPLOYEE PUBLIC ID HERE]"
+}
+```
+
+**Logout**
+```http
+POST /api/Account/Logout
+Content-Type: application/json
+
+{
+  "refreshToken": "<refresh-token>"
+}
+```
+
+### Security Notes
+
+* **HttpOnly cookies** prevent JavaScript access (mitigating XSS).  
+* **Short-lived access tokens** (15 minutes) reduce the risk if compromised.  
+* **Refresh tokens** (7 days) are hashed and stored in the database for added safety.  
+* **Claims included in JWT**: `email`, `username`, `employeeId`, `departmentId`, `roleId`, and `role claims`.  
+
+---
+
+<h2 id="cors-configuration">🌐 CORS Configuration</h2>
+
+This project uses **CORS policies** to restrict which front-end applications can call the API.
+
+In `Program.cs`:
+
+```csharp
+// Use different origins depending on the environment
+// Production → AllowedProductionOrigins
+// Development → AllowedDevelopmentOrigins
+
+var allowedOrigins = builder.Configuration
+    .GetSection("AllowedDevelopmentOrigins")
+    .Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevCorsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins!)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+```
+
+### AppSettings Setup
+
+Create two configuration files in your project root:
+
+**`appsettings.Development.json`**
+```json
+{
+  "AllowedDevelopmentOrigins": [
+    "https://localhost:7235"
+  ]
+}
+```
+
+**`appsettings.Production.json`**
+```json
+{
+  "AllowedProductionOrigins": [
+    "https://your-production-frontend.com"
+  ]
+}
+```
+
+- Add your frontend production URL(s) inside `AllowedProductionOrigins`.  
+- For local development, the default origin is `https://localhost:7235`.  
+
+### Summary
+
+- Local development uses `AllowedDevelopmentOrigins`.  
+- Production uses `AllowedProductionOrigins`.  
+- This ensures your API only accepts requests from **trusted domains**.
+
 ---
 
 <h2 id="api-endpoints">📫 API Endpoints</h2>

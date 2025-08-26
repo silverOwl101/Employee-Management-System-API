@@ -1,7 +1,6 @@
 ﻿using Employee_Management_System_API.Data;
 using Employee_Management_System_API.Domain.Entities;
 using Employee_Management_System_API.DTOs.Response;
-using Employee_Management_System_API.Interfaces.Repositories;
 using Employee_Management_System_API.Interfaces.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -135,7 +134,7 @@ namespace Employee_Management_System_API.Services
             var tokenDescriptor = TokenDescriptor(claims, creds);
 
             var (plainToken, hashToken) = await Refresh_Token(user);
-           
+
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -160,7 +159,7 @@ namespace Employee_Management_System_API.Services
 
             var tokenDescriptor = TokenDescriptor(claims, creds);
 
-            var (plainToken, hashToken) = await Refresh_Token(user);            
+            var (plainToken, hashToken) = await Refresh_Token(user);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
