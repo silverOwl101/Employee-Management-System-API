@@ -554,7 +554,7 @@ To use the HTTP files, you need to configure the [environment file](https://lear
 
 Next, open your environment file, copy the JSON snippet below, and replace the placeholder values with your actual configuration:
 
-```json
+```
 {
   "development": {
     "https": "https://localhost:7235",
