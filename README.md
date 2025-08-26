@@ -258,6 +258,8 @@ Content-Type: application/json
 }
 ```
 
+📝 **Note:** Leave the `employeeId` field blank when refreshing the Super Admin (`sa`) token.
+
 **Logout**
 ```http
 POST /api/Account/Logout
