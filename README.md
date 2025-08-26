@@ -11,8 +11,8 @@ A .NET Core Web API for managing employees, attendance, payroll, departments, an
 * [Key Features](#key-features)
 * [Getting Started](#getting-started)
 * [Project Structure](#project-structure) 
-* [Authorization (RBAC)](#authorization-rbac)
 * [Authentication (JWT)](#authentication-jwt)
+* [Authorization (RBAC)](#authorization-rbac)
 * [CORS Configuration](#cors-configuration)
 * [API Endpoints](#api-endpoints)
 * [.http Files for Testing](#http-files-for-testing)
@@ -180,101 +180,6 @@ Employee Management System API/
 ```
 ---
 
-<h2 id="authorization-rbac">🛂 Authorization (Role-Based Access Control - RBAC)</h2>
-
-This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**. The policies are centrally defined in: `EmployeeManagementSystem.API\Authorization\AuthorizationPolicies.cs`
-
-### `AuthorizationPolicies.cs` Overview
-
-This file centralizes **authorization policy definitions** for the API. Each policy maps to a specific claim that determines whether a user is permitted to perform certain actions (e.g., view, create, update, or delete resources).
-
-Example excerpt:
-
-```csharp
-namespace EmployeeManagementSystem.API.Authorization
-{
-    public static class AuthorizationPolicies
-    {
-        public static void Register(AuthorizationOptions options)
-        {
-            // Employee policies
-            options.AddPolicy("Employee.View", policy =>
-                policy.RequireClaim("Employee.View", "true"));
-
-            options.AddPolicy("Employee.Create", policy =>
-                policy.RequireClaim("Employee.Create", "true"));
-
-            options.AddPolicy("Employee.Update", policy =>
-                policy.RequireClaim("Employee.Update", "true"));
-
-            options.AddPolicy("Employee.Delete", policy =>
-                policy.RequireClaim("Employee.Delete", "true"));
-
-            // Department policies
-            options.AddPolicy("Department.View", policy =>
-                policy.RequireClaim("Department.View", "true"));
-            
-            // ... other resources
-        }
-    }
-}
-```
-
-Each policy enforces **fine-grained access control**, ensuring that only users with the required claims can access protected endpoints.
-
-###  Policy Registration
-
-In `Program.cs`, the policies from `AuthorizationPolicies.cs` are registered like this:
-
-```csharp
-builder.Services.AddAuthorization(options =>
-{
-    AuthorizationPolicies.SystemPolicies(options);
-});
-```
-
-Each endpoint requires a specific claim with value `"true"` in the user’s token.
-
-### Policy Format
-
-```
-<Resource>.<Action>
-```
-
-Example:
-
-* **`Employee.View`** – Grants permission to view all employee records.
-* **`Employee.Create`** – Grants permission to create new employee records.
-
-### Example Usage
-
-```csharp
-[Authorize(Policy = "Employee.Create")]
-[HttpPost]
-public async Task<IActionResult> CreateEmployee(EmployeeDto dto)
-{
-    ...
-}
-```
-
-### 📋 Available Policies
-
-| **Resource**          | **View** | **ById** | **Create** | **Update** | **Delete** | **Other Actions**                                                                     |
-| --------------------- | -------- | -------- | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------- |
-| **Account**           | –        | –        | ✅ Register | –          | –          | –                                                                                     |
-| **Attendance**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **Department**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **Employee**          | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | Attendance, LeaveRequest, Payroll, PerformanceReview, PhoneNumbers, ProjectAssignment |
-| **LeaveRequest**      | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **Payroll**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **PerformanceReview** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **PhoneNumber**       | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **ProjectAssignment** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-| **Project**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | GetEmployees                                                                          |
-| **Role**              | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
-
----
-
 <h2 id="authentication-jwt">🔐 Authentication (JSON Web Tokens - JWT)</h2>
 
 This API uses **JSON Web Tokens (JWT)** with **HttpOnly cookies** for authentication and session management.  
@@ -369,6 +274,101 @@ Content-Type: application/json
 * **Short-lived access tokens** (15 minutes) reduce the risk if compromised.  
 * **Refresh tokens** (7 days) are hashed and stored in the database for added safety.  
 * **Claims included in JWT**: `email`, `username`, `employeeId`, `departmentId`, `roleId`, and `role claims`.  
+
+---
+
+<h2 id="authorization-rbac">🛂 Authorization (Role-Based Access Control - RBAC)</h2>
+
+This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**. The policies are centrally defined in: `EmployeeManagementSystem.API\Authorization\AuthorizationPolicies.cs`
+
+### `AuthorizationPolicies.cs` Overview
+
+This file centralizes **authorization policy definitions** for the API. Each policy maps to a specific claim that determines whether a user is permitted to perform certain actions (e.g., view, create, update, or delete resources).
+
+Example excerpt:
+
+```csharp
+namespace EmployeeManagementSystem.API.Authorization
+{
+    public static class AuthorizationPolicies
+    {
+        public static void Register(AuthorizationOptions options)
+        {
+            // Employee policies
+            options.AddPolicy("Employee.View", policy =>
+                policy.RequireClaim("Employee.View", "true"));
+
+            options.AddPolicy("Employee.Create", policy =>
+                policy.RequireClaim("Employee.Create", "true"));
+
+            options.AddPolicy("Employee.Update", policy =>
+                policy.RequireClaim("Employee.Update", "true"));
+
+            options.AddPolicy("Employee.Delete", policy =>
+                policy.RequireClaim("Employee.Delete", "true"));
+
+            // Department policies
+            options.AddPolicy("Department.View", policy =>
+                policy.RequireClaim("Department.View", "true"));
+            
+            // ... other resources
+        }
+    }
+}
+```
+
+Each policy enforces **fine-grained access control**, ensuring that only users with the required claims can access protected endpoints.
+
+###  Policy Registration
+
+In `Program.cs`, the policies from `AuthorizationPolicies.cs` are registered like this:
+
+```csharp
+builder.Services.AddAuthorization(options =>
+{
+    AuthorizationPolicies.SystemPolicies(options);
+});
+```
+
+Each endpoint requires a specific claim with value `"true"` in the user’s token.
+
+### Policy Format
+
+```
+<Resource>.<Action>
+```
+
+Example:
+
+* **`Employee.View`** – Grants permission to view all employee records.
+* **`Employee.Create`** – Grants permission to create new employee records.
+
+### Example Usage
+
+```csharp
+[Authorize(Policy = "Employee.Create")]
+[HttpPost]
+public async Task<IActionResult> CreateEmployee(EmployeeDto dto)
+{
+    ...
+}
+```
+
+### 📋 Available Policies
+
+| **Resource**          | **View** | **ById** | **Create** | **Update** | **Delete** | **Other Actions**                                                                     |
+| --------------------- | -------- | -------- | ---------- | ---------- | ---------- | ------------------------------------------------------------------------------------- |
+| **Account**           | –        | –        | ✅ Register | –          | –          | –                                                                                     |
+| **Attendance**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Department**        | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Employee**          | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | Attendance, LeaveRequest, Payroll, PerformanceReview, PhoneNumbers, ProjectAssignment |
+| **LeaveRequest**      | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Payroll**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **PerformanceReview** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **PhoneNumber**       | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **ProjectAssignment** | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
+| **Project**           | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | GetEmployees                                                                          |
+| **Role**              | ✅ View   | ✅ ById   | ✅ Create   | ✅ Update   | ✅ Delete   | –                                                                                     |
 
 ---
 
