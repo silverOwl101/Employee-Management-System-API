@@ -148,15 +148,15 @@ Follow the [EF Core migration guide](https://learn.microsoft.com/en-us/ef/core/m
 
 ### 7. Enable Super Admin Seeding
 
-To seed the default `sa` (Super Admin) account:
-
-In `Program.cs`, **uncomment** line 198:
+To seed the default `sa` (Super Admin) account, open `Program.cs` and **locate the following line of code**:
 
 ```csharp
 await DbSeeder.SeedSuperAdmin(app.Services);
 ```
 
-> **📝 Note:** After the Super Admin is created, you may comment this line again. However, leaving it uncommented is safe, duplicate creation is prevented.
+You can quickly find it by pressing **`Ctrl + F`** in Visual Studio 2022 and searching for `DbSeeder.SeedSuperAdmin`. Then, uncomment the code to seed the Super Admin.
+
+📝 **Note:** Once the Super Admin is created, you may comment this line again. Leaving it uncommented is safe, as the code prevents duplicate creation.
 
 ### 8. Build and Run the API
 
