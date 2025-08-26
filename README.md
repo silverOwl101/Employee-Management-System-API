@@ -551,7 +551,7 @@ To use the HTTP files, you need to set up the [environment file](https://learn.m
 
 First, run the `Login Request` inside the `Account.http` file to get the refresh token and the JWT token.
 
-```http
+```
 ### Login Request
 POST {{baseUrl}}/api/account/login
 Content-Type: application/json
@@ -566,7 +566,7 @@ Content-Type: application/json
 
 Open the `httpenv.json` file and replace the variables with your actual values.
 
-```json
+```
 {
   "development": {
     "https": "[HTTPS HERE]",
@@ -581,7 +581,7 @@ You can now use the following HTTP files:
 
 #### Account.http
 
-```http
+```
 @baseUrl = {{https}}
 @employeeID = [ID HERE]
 
@@ -636,7 +636,7 @@ Authorization: Bearer {{token}}
 
 #### Attendance.http
 
-```http
+```
 @baseUrl = {{https}}
 @attendanceId = [ATTENDANCE ID HERE]
 
@@ -683,7 +683,7 @@ Authorization: Bearer {{token}}
 
 #### Department.http
 
-```http
+```
 @baseUrl = {{http}}
 @departmentId = [DEPARTMENT ID HERE]
 
@@ -724,7 +724,7 @@ Authorization: Bearer {{token}}
 
 #### Employee.http
 
-```http
+```
 @baseUrl = {{http}}
 @employeeId = [EMPLOYEE ID HERE]
 
@@ -807,7 +807,7 @@ Authorization: Bearer {{token}}
 
 #### LeaveRequest.http
 
-```http
+```
 
 @baseUrl = {{http}}
 @leaveRequestId = [LEAVE REQUEST ID HERE]
@@ -858,7 +858,7 @@ Authorization: Bearer {{token}}
 
 #### Payroll.http
 
-```http
+```
 @baseUrl = {{http}}
 @payrollId = [PAYROLL ID HERE]
 
@@ -907,7 +907,7 @@ Authorization: Bearer {{token}}
 
 #### PhoneNumber.http
 
-```http
+```
 
 @baseUrl = {{http}}
 @phoneNumberId = [PHONE NUMBER ID HERE]
@@ -949,7 +949,7 @@ Authorization: Bearer {{token}}
 
 #### Project.http
 
-```http
+```
 
 @baseUrl = {{http}}
 @projectId = [PROJECT ID HERE]
@@ -997,7 +997,7 @@ Authorization: Bearer {{token}}
 
 #### ProjectAssignment.http
 
-```http
+```
 
 @baseUrl = {{http}}
 @projectAssignment = [PROJECT ASSIGNMENT ID HERE]
@@ -1043,7 +1043,7 @@ Authorization: Bearer {{token}}
 
 #### Role.http
 
-```http
+```
 
 @baseUrl = {{http}}
 @roleId = [ROLE ID HERE]
