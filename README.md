@@ -1088,14 +1088,22 @@ Authorization: Bearer {{token}}
 
 <h2 id="skills-demonstrated">📚 Skills Demonstrated </h2>
 
-* RESTful API Design
-* Repository & Service Layer Pattern
-* JWT Authentication & Authorization
-* Global Error Handling with Middleware
-* Pagination, Filtering and Sorting
-* Secure Secret Management
-* Entity Framework Code-First Migrations
-* Version Control Best Practices with `.gitignore`
+This project highlights core competencies in backend development, security, database management, and professional software engineering practices.  
+
+- **API Architecture & Security**  
+  RESTful API design, JWT authentication with HttpOnly cookies, role-based access control (RBAC), and CORS configuration for secure cross-origin requests.  
+
+- **Data & Database Management**  
+  Entity Framework Core (code-first approach with migrations), MSSQL deployment in Docker, and data seeding using Bogus for realistic test datasets.  
+
+- **Application Infrastructure**  
+  Repository and service layer pattern for maintainability, configuration management with environment-based `appsettings.json`, and middleware for global error handling with structured logging.  
+
+- **Testing & Documentation**  
+  Automated request testing using `.http` files, interactive API documentation with Swagger/Swashbuckle, and clear technical documentation for project communication.  
+
+- **Software Development Practices**  
+  Version control with Git/GitHub (including `.gitignore` and repository organization), and adherence to professional development workflows and best practices.  
 
 ---
 
