@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Employee_Management_System_API.Authorization
 {

@@ -180,9 +180,59 @@ Employee Management System API/
 ```
 ---
 
-<h2 id="authorization-rbac">🛂 Authorization (RBAC)</h2>
+<h2 id="authorization-rbac">🛂 Authorization (Role-Based Access Control - RBAC)</h2>
 
-This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**.
+This API uses **Role-Based Access Control (RBAC)** with **ASP.NET Core Authorization Policies**. The policies are centrally defined in: `EmployeeManagementSystem.API\Authorization\AuthorizationPolicies.cs`
+
+### `AuthorizationPolicies.cs` Overview
+
+This file centralizes **authorization policy definitions** for the API. Each policy maps to a specific claim that determines whether a user is permitted to perform certain actions (e.g., view, create, update, or delete resources).
+
+Example excerpt:
+
+```csharp
+namespace EmployeeManagementSystem.API.Authorization
+{
+    public static class AuthorizationPolicies
+    {
+        public static void Register(AuthorizationOptions options)
+        {
+            // Employee policies
+            options.AddPolicy("Employee.View", policy =>
+                policy.RequireClaim("Employee.View", "true"));
+
+            options.AddPolicy("Employee.Create", policy =>
+                policy.RequireClaim("Employee.Create", "true"));
+
+            options.AddPolicy("Employee.Update", policy =>
+                policy.RequireClaim("Employee.Update", "true"));
+
+            options.AddPolicy("Employee.Delete", policy =>
+                policy.RequireClaim("Employee.Delete", "true"));
+
+            // Department policies
+            options.AddPolicy("Department.View", policy =>
+                policy.RequireClaim("Department.View", "true"));
+            
+            // ... other resources
+        }
+    }
+}
+```
+
+Each policy enforces **fine-grained access control**, ensuring that only users with the required claims can access protected endpoints.
+
+###  Policy Registration
+
+In `Program.cs`, the policies from `AuthorizationPolicies.cs` are registered like this:
+
+```csharp
+builder.Services.AddAuthorization(options =>
+{
+    AuthorizationPolicies.SystemPolicies(options);
+});
+```
+
 Each endpoint requires a specific claim with value `"true"` in the user’s token.
 
 ### Policy Format
@@ -193,8 +243,8 @@ Each endpoint requires a specific claim with value `"true"` in the user’s toke
 
 Example:
 
-* `Employee.View` → Allows viewing all employees
-* `Employee.Create` → Allows creating a new employee
+* **`Employee.View`** – Grants permission to view all employee records.
+* **`Employee.Create`** – Grants permission to create new employee records.
 
 ### Example Usage
 
@@ -206,8 +256,6 @@ public async Task<IActionResult> CreateEmployee(EmployeeDto dto)
     ...
 }
 ```
-
----
 
 ### 📋 Available Policies
 
@@ -227,7 +275,7 @@ public async Task<IActionResult> CreateEmployee(EmployeeDto dto)
 
 ---
 
-<h2 id="authentication-jwt">🔐 Authentication (JWT)</h2>
+<h2 id="authentication-jwt">🔐 Authentication (JSON Web Tokens - JWT)</h2>
 
 This API uses **JSON Web Tokens (JWT)** with **HttpOnly cookies** for authentication and session management.  
 
@@ -324,7 +372,7 @@ Content-Type: application/json
 
 ---
 
-<h2 id="cors-configuration">🌐 CORS Configuration</h2>
+<h2 id="cors-configuration">🌐 Cross-Origin Resource Sharing (CORS) Configuration</h2>
 
 This project uses **CORS policies** to restrict which front-end applications can call the API.
 

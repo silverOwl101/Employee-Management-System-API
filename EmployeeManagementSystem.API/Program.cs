@@ -178,7 +178,7 @@ namespace Employee_Management_System_API
 
             builder.Services.AddAuthorization(options =>
             {
-                AuthorizationPolicies.SystemPolicies(options!);
+                AuthorizationPolicies.SystemPolicies(options);
             });
 
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
