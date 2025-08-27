@@ -621,19 +621,19 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 { 
-  "firstName": "testing",
-  "middleName": "test",
-  "lastName": "testingting",
-  "email": "test@email.com",
-  "dateOfBirth": "2025-07-22",
-  "hireDate": "2025-07-22",
-  "address": "test",
+  "firstName": "string",
+  "middleName": "string",
+  "lastName": "string",
+  "email": "string",
+  "dateOfBirth": "2025-08-27",
+  "hireDate": "2025-08-27",
+  "address": "string",
   "status": "Active",
-  "departmentPub_ID": "2025-1122",
-  "rolePub_ID": "2025-1222",
-  "userName": "testingUser",
-  "orgRole": "HRStaff",
-  "password": "user_Password101"
+  "departmentPub_ID": "string",
+  "rolePub_ID": "string",
+  "userName": "string",
+  "orgRole": "HRManager",
+  "password": "string"
 }
 
 ### Token Refresh
@@ -690,9 +690,9 @@ Authorization: Bearer {{token}}
 
 {
   "attendancePub_ID": "{{attendanceId}}",
-  "date": "2025-07-23",
-  "checkInTime": ""09:46:30",
-  "checkOutTime": "16:33:20",
+  "date": "2025-08-27",
+  "checkInTime": "string",
+  "checkOutTime": "string",
   "status": "Present",
   "employeePub_ID": "string"
 }

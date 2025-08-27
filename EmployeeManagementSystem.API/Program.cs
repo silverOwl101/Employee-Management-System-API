@@ -209,7 +209,7 @@ namespace Employee_Management_System_API
 
             #region Seedings
             //Seeding the sa (Super Admin)
-            await DbSeeder.SeedSuperAdmin(app.Services);
+            //await DbSeeder.SeedSuperAdmin(app.Services);
 
             //using var scope = app.Services.CreateScope();
             //var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
